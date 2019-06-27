@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Material+Icons">
+        
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>socproj</title>
+  </head>
+  <body>
+      <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-app.js"></script>
+
+      <!-- TODO: Add SDKs for Firebase products that you want to use
+      https://firebase.google.com/docs/web/setup#config-web-app -->
+      <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-auth.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/6.2.2/firebase-firestore.js"></script>
+      <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+      apiKey: "AIzaSyBXL7bdnGdG8W3HZ8lLMxa_BniZ9K1YKEE",
+      authDomain: "sign-in-1511c.firebaseapp.com",
+      databaseURL: "https://sign-in-1511c.firebaseio.com",
+      projectId: "sign-in-1511c",
+      storageBucket: "",
+      messagingSenderId: "1069985502698",
+      appId: "1:1069985502698:web:a4d0cd551436468b"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const auth=firebase.auth();
+      const db= firebase.firestore();
+      
+      </script>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+    
+  </body>
+</html>
