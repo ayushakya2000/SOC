@@ -1,28 +1,20 @@
 <template>
 <v-app style = "background: rgb(0,0,0,0)">
-    <v-toolbar app color="rgb(0,0,0,0.5)">
-      <v-toolbar-title class="headline text-uppercase" dark>
+    <v-toolbar  app color="rgb(0,0,0,0.7)" dark >
+ <v-toolbar-title class="headline text-uppercase" dark>
+     <v-layout row wrap>
+     <v-btn fab small route to="/" flat>
+        <span class="display-1"><</span>
+     </v-btn>
+        <v-flex pt-2 mt-1>
         <span class=" grey--text">get </span>
         <span class="font-weight-light white--text">college</span>
+        </v-flex>
+     </v-layout>
       </v-toolbar-title>
       
-      <v-spacer></v-spacer>
-
-      <v-btn
-        :loading="loading4"
-        :disabled="loading4"
-        color="rgb(0,0,0,0)"
-        @click="loader = 'loading4'"
-        dark
-      >
-        LOGIN
-        <v-icon right dark>fas fa-sign-in-alt</v-icon>
-        <template v-slot:loader>
-        <span class="custom-loader">
-          <v-icon dark>cached</v-icon>
-        </span>
-      </template>
-      </v-btn>
+  <v-spacer></v-spacer>
+   
     </v-toolbar>
     
     <v-navigation-drawer
@@ -516,9 +508,7 @@
       loader () {
         const l = this.loader
         this[l] = !this[l]
-
         setTimeout(() => (this[l] = false), 3000)
-
         this.loader = null
       }
     },
