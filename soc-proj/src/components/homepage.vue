@@ -10,13 +10,13 @@
       </v-toolbar-title>
   <v-spacer></v-spacer>
   
-     <v-btn large flat route to="/login">
-      <span >SIGN UP</span>
+     <v-btn large flat @mouseover="f()" to="/login">
+      <span id="lmao">SIGN UP</span>
      <v-icon right large>account_circle</v-icon>
     </v-btn>
     <v-dialog>
      <v-btn large flat slot="activator" >
-      <span >LOGIN</span>
+      <span id="lol">LOGIN</span>
      <v-icon right large>perm_identity</v-icon>
      
     </v-btn>
@@ -394,6 +394,36 @@ export default {
             })
             var user= firebase.auth().currentUser;
             console.log(user);
+        },
+        f: function(){
+             var user= firebase.auth().currentUser;
+             console.log(user);
+            // var provider = new firebase.auth.GoogleAuthProvider();
+            // firebase.auth().signInWithPopup(provider).then(function(result) {
+            //   // This gives you a Google Access Token. You can use it to access the Google API.
+            //   var token = result.credential.accessToken;
+            //   // The signed-in user info.
+            //   var user = result.user;
+            //   console.log("boo");
+            //   // ...
+            // }).catch(function(error) {
+            //   // Handle Errors here.
+            //   var errorCode = error.code;
+            //   var errorMessage = error.message;
+            //   // The email of the user's account used.
+            //   var email = error.email;
+            //   // The firebase.auth.AuthCredential type that was used.
+            //   var credential = error.credential;
+            //   // ...
+            // });
+            if(user.emailVerified){
+              //document.getElementById("lmao").style.display="none";
+              //document.getElementById("lol").style.display="none";
+              console.log("yep");
+            }
+            else{
+              console.log("nope");
+            }
         }
     }
 }
