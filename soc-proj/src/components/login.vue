@@ -47,6 +47,7 @@
                   counter
                   maxlength="20"
                   clearable
+                  id="fname"
                 ></v-text-field>
               </v-flex>
 
@@ -59,6 +60,7 @@
                   counter
                   maxlength="20"
                   clearable
+                  id="lname"
                 ></v-text-field>
               </v-flex>
 
@@ -203,14 +205,23 @@
     },
     methods:{
        fnnn(){
+         const name=document.getElementById('fname').value+" "+document.getElementById('lname').value;
     const email=document.getElementById('email').value;
     const pass=document.getElementById('pass').value;
      auth.createUserWithEmailAndPassword(email, pass).then(cred => {
          console.log(cred);
+     
+    var user = firebase.auth().currentUser;
+
+    user.updateProfile({
+      displayName: name,
+      photoURL: "https://example.com/jane-q-user/profile.jpg"
+    }).then(function() {
+      console.log(email,pass);
+    })
      })
-    
-    console.log(email,pass);
-    console.log("qwertyuiop"+user);
+    //console.log(email,pass);
+    //console.log("qwertyuiop"+user);
     },
     f(){
       // var actionCodeSettings = {

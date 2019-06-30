@@ -121,8 +121,16 @@
       <v-flex app >
 
         <v-card-actions>
+
+          <v-overflow-btn
+          :items="dropdown"
+          label="All Questions"
+          value="All Questions"
+          target="#dropdown-example"
+        ></v-overflow-btn>
+
           <v-spacer></v-spacer>
-          <v-btn flat @click="showq = !showq">
+          <v-btn flat id="ques" @mousedown="f()" @click="showq = !showq">
             Add Question
             <v-icon right>add</v-icon>
           </v-btn>
@@ -148,8 +156,7 @@
 
                   <v-list-tile-content>
                     <v-list-tile-title>
-                      <div class="headline">
-                      You
+                      <div class="headline"id="name">
                       </div>
                     </v-list-tile-title>
                   </v-list-tile-content>
@@ -169,6 +176,7 @@
             flat
             background-color="grey lighten-4"
             clearable
+            id="query"
           >
           </v-textarea>
           
@@ -199,7 +207,7 @@
 
           <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn flat @click="show = !show">
+          <v-btn flat @click="send()">
             Submit
             <v-icon right>send</v-icon>
           </v-btn>
@@ -230,7 +238,7 @@
 
                   <v-list-tile-content>
                     <v-list-tile-title>
-                      <div class="headline">
+                      <div id="name1" class="headline">
                       Evan You
                       </div>
                     </v-list-tile-title>
@@ -297,7 +305,7 @@
             <br>
             <v-card color="grey lighten-3">
               <v-container
-                fluid
+               fluid
               >
                 <v-layout row wrap>
                   <v-flex sm10>
@@ -510,6 +518,7 @@
 </style>
 
 <script>
+import { constants } from 'crypto';
   
   export default {
     data () {
@@ -527,6 +536,7 @@
         showr:false,
         showq:false,
         itemscb: ['IITB', 'IITK', 'IITD', 'IITKGP', 'IITM'],
+        dropdown: ['All Questions', 'Your Questions', 'Recommended'],
         model: ['General'],
         items: [
           { title: 'Home', icon: 'dashboard' },
@@ -619,6 +629,43 @@
         return this.caseSensitive
           ? (item, search, textKey) => item[textKey].indexOf(search) > -1
           : undefined
+      }
+    },
+    created(){
+
+    },
+    mounted(){
+      var user = firebase.auth().currentUser;
+      if(user.emailVerified){
+        // this.dropdown[1]="Answered Questions";
+        // console.log(this.dropdown);    
+        document.getElementById("ques").style.display ="none"
+        
+       }
+       else{
+         this.dropdown.splice(2);
+        console.log("poop");
+       }
+    },
+    methods: {
+      f(){
+        var user = firebase.auth().currentUser;
+        console.log(user.displayName);
+        document.getElementById("name").innerHTML= user.displayName;
+      },
+      send(){
+        var user = firebase.auth().currentUser;
+          // Add a new document with a generated id.
+        db.collection("posts").add({
+            author: user.displayName,
+            downvote: 0,
+            upvote: 0,
+            query: document.getElementById("query").value,
+
+        })
+        .then(function(docRef) {
+            console.log("Document written with ID: ", docRef.id);
+        })
       }
     }
     

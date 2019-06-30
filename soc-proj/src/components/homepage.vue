@@ -10,13 +10,19 @@
       </v-toolbar-title>
   <v-spacer></v-spacer>
   
-     <v-btn large flat @mouseover="f()" to="/login">
-      <span id="lmao">SIGN UP</span>
+     <v-btn id="lmao" large flat  to="/login">
+      <span >SIGN UP</span>
      <v-icon right large>account_circle</v-icon>
     </v-btn>
+    <v-btn id="lel" @click="mm()" large flatzyy >
+      <span >LOGOUT</span>
+     <v-icon right large>perm_identity</v-icon>
+     
+    </v-btn>
     <v-dialog>
-     <v-btn large flat slot="activator" >
-      <span id="lol">LOGIN</span>
+       
+     <v-btn id="lol" large flat slot="activator" >
+      <span >LOGIN</span>
      <v-icon right large>perm_identity</v-icon>
      
     </v-btn>
@@ -385,15 +391,45 @@ export default {
           }
         
     }},
+    mounted(){
+       var user= firebase.auth().currentUser;
+      if(user){
+        document.getElementById("lol").style.display="none";
+        document.getElementById("lmao").style.display="none";
+        document.getElementById("lel").style.display="block";
+        console.log("lmao");
+      }
+      else{
+        document.getElementById("lel").style.display="none";
+      }
+    },
     methods:{
         fnnnn:function(){
             const email=document.getElementById('email').value;
             const password=document.getElementById('pass').value;
             auth.signInWithEmailAndPassword(email, password).then(cred => {
-                console.log(cred.user)
+                console.log(cred.user+"jkj")
+            }).catch(function(error){
+              alert("Wrong credentials. Re-enter.");
+
             })
-            var user= firebase.auth().currentUser;
-            console.log(user);
+            //var user= firebase.auth().currentUser;
+            //console.log(user);
+            
+            // if(user.emailVerified){
+            //   //document.getElementById("lmao").style.display="none";
+            //   //document.getElementById("lol").style.display="none";
+            //   console.log("yep");
+            // }
+            // else{
+            //   console.log("nope");
+            // }
+            this.$router.push("/forum");
+        },
+        mm: function(){
+          auth.signOut().then(() =>{
+          console.log("logged out");
+           });
         },
         f: function(){
              var user= firebase.auth().currentUser;
