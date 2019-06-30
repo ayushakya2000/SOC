@@ -4,7 +4,7 @@
  <v-toolbar-title class="headline text-uppercase" dark>
      <v-layout row wrap>
      <v-btn fab small route to="/" flat>
-        <span class="display-1"><</span>
+        <span class="display-1"></span>
      </v-btn>
         <v-flex pt-2 mt-1>
         <span class=" grey--text">get </span>
@@ -89,7 +89,8 @@
             solo-inverted
             hide-details
             clearable
-            clear-icon="mdi-close-circle-outline"
+            clear-i
+                
           ></v-text-field>
           <v-checkbox
             v-model="caseSensitive"
@@ -115,6 +116,107 @@
         </v-card-text>
       </v-card>
       </v-flex>
+
+      <br>
+      <v-flex app >
+
+        <v-card-actions>
+
+          <v-overflow-btn
+          :items="dropdown"
+          label="All Questions"
+          value="All Questions"
+          target="#dropdown-example"
+        ></v-overflow-btn>
+
+          <v-spacer></v-spacer>
+          <v-btn flat id="ques" @mousedown="f()" @click="showq = !showq">
+            Add Question
+            <v-icon right>add</v-icon>
+          </v-btn>
+        </v-card-actions>
+
+
+      <v-card v-show="showq">
+        <v-container
+          fluid
+        >
+          <v-layout row wrap>
+            <v-flex sm10>
+              <v-card flat>
+              <v-card-actions>
+                
+                <v-list-tile class="grow">
+                  <v-list-tile-avatar color="grey darken-3">
+                    <v-img
+                      class="elevation-6"
+                      src="https://randomuser.me/api/portraits/men/66.jpg"
+                    ></v-img>
+                  </v-list-tile-avatar>
+
+                  <v-list-tile-content>
+                    <v-list-tile-title>
+                      <div class="headline"id="name">
+                      </div>
+                    </v-list-tile-title>
+                  </v-list-tile-content>
+
+                </v-list-tile>
+              </v-card-actions>
+              </v-card>
+              
+            </v-flex>
+          </v-layout>
+        </v-container>
+        <v-flex px-3>
+           <v-textarea
+            label="Ask a question..."
+            solo
+            auto-grow
+            flat
+            background-color="grey lighten-4"
+            clearable
+            id="query"
+          >
+          </v-textarea>
+          
+        </v-flex>
+        <br>
+        <v-flex xs12 px-3>
+          <v-combobox
+            v-model="model"
+            :items="itemscb"
+            :search-input.sync="search"
+            hide-selected
+            hint="Maximum of 5 tags"
+            label="Add some tags"
+            multiple
+            persistent-hint
+            small-chips
+          >
+            <template v-slot:no-data>
+              <v-list-tile>
+                <v-list-tile-content>
+                  <v-list-tile-title>
+                    No results matching "<strong>{{ search }}</strong>". Press <kbd>enter</kbd> to create a new one
+                  </v-list-tile-title>
+                </v-list-tile-content>
+              </v-list-tile>
+            </template>
+          </v-combobox>
+
+          <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn flat @click="send()">
+            Submit
+            <v-icon right>send</v-icon>
+          </v-btn>
+        </v-card-actions>
+
+        </v-flex>
+      </v-card>
+      </v-flex>
+
       <br>
       <v-flex app >
       <v-card>
@@ -136,7 +238,7 @@
 
                   <v-list-tile-content>
                     <v-list-tile-title>
-                      <div class="headline">
+                      <div id="name1" class="headline">
                       Evan You
                       </div>
                     </v-list-tile-title>
@@ -203,7 +305,7 @@
             <br>
             <v-card color="grey lighten-3">
               <v-container
-                fluid
+               fluid
               >
                 <v-layout row wrap>
                   <v-flex sm10>
@@ -416,6 +518,7 @@
 </style>
 
 <script>
+import { constants } from 'crypto';
   
   export default {
     data () {
@@ -431,6 +534,10 @@
         show: false,
         select: ['IITB', 'IITK'],
         showr:false,
+        showq:false,
+        itemscb: ['IITB', 'IITK', 'IITD', 'IITKGP', 'IITM'],
+        dropdown: ['All Questions', 'Your Questions', 'Recommended'],
+        model: ['General'],
         items: [
           { title: 'Home', icon: 'dashboard' },
           { title: 'About', icon: 'question_answer' },
@@ -510,6 +617,11 @@
         this[l] = !this[l]
         setTimeout(() => (this[l] = false), 3000)
         this.loader = null
+      },
+      model (val) {
+        if (val.length > 5) {
+          this.$nextTick(() => this.model.pop())
+        }
       }
     },
     computed: {
@@ -517,6 +629,43 @@
         return this.caseSensitive
           ? (item, search, textKey) => item[textKey].indexOf(search) > -1
           : undefined
+      }
+    },
+    created(){
+
+    },
+    mounted(){
+      var user = firebase.auth().currentUser;
+      if(user.emailVerified){
+        // this.dropdown[1]="Answered Questions";
+        // console.log(this.dropdown);    
+        document.getElementById("ques").style.display ="none"
+        
+       }
+       else{
+         this.dropdown.splice(2);
+        console.log("poop");
+       }
+    },
+    methods: {
+      f(){
+        var user = firebase.auth().currentUser;
+        console.log(user.displayName);
+        document.getElementById("name").innerHTML= user.displayName;
+      },
+      send(){
+        var user = firebase.auth().currentUser;
+          // Add a new document with a generated id.
+        db.collection("posts").add({
+            author: user.displayName,
+            downvote: 0,
+            upvote: 0,
+            query: document.getElementById("query").value,
+
+        })
+        .then(function(docRef) {
+            console.log("Document written with ID: ", docRef.id);
+        })
       }
     }
     

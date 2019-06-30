@@ -200,7 +200,7 @@ export default {
                         }
                     }
                     if(i==5){
-                        out=doc.data().package;
+                        out=doc.data().Packages;
                         for(j=1;j<=4;j++){
                             if(out[j-1])
                             document.getElementById(i+"."+j).innerHTML=out[j-1];

@@ -7,20 +7,20 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import routes from './routes.js'
-import VueResource from 'vue-resource'
-Vue.use(VueResource);
+
+
 Vue.use(Vuetify)
 Vue.use(VueRouter)
 
 const route = new VueRouter({
-routes:routes,
-mode:'history'
+    routes: routes,
+    mode: 'history'
 });
 // Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
-  router:route,
-  render: h => h(App)
+    el: '#app',
+    router: route,
+    render: h => h(App)
 })

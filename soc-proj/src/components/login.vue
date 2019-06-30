@@ -47,6 +47,7 @@
                   counter
                   maxlength="20"
                   clearable
+                  id="fname"
                 ></v-text-field>
               </v-flex>
 
@@ -59,6 +60,7 @@
                   counter
                   maxlength="20"
                   clearable
+                  id="lname"
                 ></v-text-field>
               </v-flex>
 
@@ -203,23 +205,53 @@
     },
     methods:{
        fnnn(){
+         const name=document.getElementById('fname').value+" "+document.getElementById('lname').value;
     const email=document.getElementById('email').value;
     const pass=document.getElementById('pass').value;
      auth.createUserWithEmailAndPassword(email, pass).then(cred => {
          console.log(cred);
+     
+    var user = firebase.auth().currentUser;
+
+    user.updateProfile({
+      displayName: name,
+      photoURL: "https://example.com/jane-q-user/profile.jpg"
+    }).then(function() {
+      console.log(email,pass);
+    })
      })
-    
-    console.log(email,pass);
-    console.log("qwertyuiop"+user);
+    //console.log(email,pass);
+    //console.log("qwertyuiop"+user);
     },
     f(){
+      // var actionCodeSettings = {
+      //   url: 'https://sign-in-1511c.firebaseapp.com/forum' ,
+      //   iOS: {
+      //     bundleId: 'com.sign-in-1511c.firebaseapp.ios'
+      //   },
+      //   android: {
+      //     packageName: 'com.sign-in-1511c.firebaseapp.android',
+      //     installApp: true,
+      //     minimumVersion: '12'
+      //   },
+      //   handleCodeInApp: true,
+      //   // When multiple custom dynamic link domains are defined, specify which
+      //   // one to use.
+      //   dynamicLinkDomain: "sign-in-1511c.firebaseapp.page.link"
+      // };
+      // firebase.auth().currentUser.sendEmailVerification(actionCodeSettings)
+      //   .then(function() {
+      //     // Verification email sent.
+      //   })
+      //   .catch(function(error) {
+      //     // Error occurred. Inspect error.code.
+      //   });
     var user = firebase.auth().currentUser;
 
     user.sendEmailVerification().then(function() {
     console.log("qwerty")
-    }).catch(function(error) {
-    // An error happened.
-    });
+    })
+    
     auth.signOut().then(() =>{
         console.log("logged out"+user);
     });
