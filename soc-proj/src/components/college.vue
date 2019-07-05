@@ -28,7 +28,7 @@
   height="900"
   >
   <v-container class="ma-5" >
-  <blockquote class="blockquote display-3 border2 my-5" id="name1">COLLEGES</blockquote>
+  <blockquote class="blockquote display-3 borderr2 my-5" id="name1">COLLEGES</blockquote>
   </v-container>
   
   </v-parallax>
@@ -78,12 +78,12 @@ src="http://realpinkaz.com/wp-content/uploads/web-design-background-montreal-web
        
         <v-img
           :src="card.src"
-          class="border"
+          class="borderr"
           height="200px"
         >
         </v-img>
 
-        <v-card-title primary-title class="border1">
+        <v-card-title primary-title class="borderr1">
           <div>
              
             <div class="headline">{{card.title}}</div>
@@ -178,13 +178,13 @@ export default {
 </script>
 
 <style>
-.border{
+.borderr{
   border-left: 6px solid orange;
 }
-.border1{
+.borderr1{
   border-left: 6px solid #3cd1c2;
 }
-.border2{
+.borderr2{
   border-left: 4px solid #E91E63;
 }
 </style>

@@ -7,9 +7,11 @@ import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import routes from './routes.js'
+import '@fortawesome/fontawesome-free/css/all.css'
 
-
-Vue.use(Vuetify)
+Vue.use(Vuetify,{
+    iconfont: 'fa'
+})
 Vue.use(VueRouter)
 
 const route = new VueRouter({

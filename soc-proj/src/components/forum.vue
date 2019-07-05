@@ -4,7 +4,7 @@
  <v-toolbar-title class="headline text-uppercase" dark>
      <v-layout row wrap>
      <v-btn fab small route to="/" flat>
-        <span class="display-1"></span>
+        <span class="display-1"><</span>
      </v-btn>
         <v-flex pt-2 mt-1>
         <span class=" grey--text">get </span>
@@ -53,7 +53,7 @@
       <v-list-tile
         v-for="item in items"
         :key="item.title"
-        @click=""
+        
       >
         <v-list-tile-action>
           <v-icon>{{ item.icon }}</v-icon>
@@ -130,7 +130,7 @@
         ></v-overflow-btn>
 
           <v-spacer></v-spacer>
-          <v-btn flat id="ques" @mousedown="f()" @click="showq = !showq">
+          <v-btn flat id="ques" @mousedown="f()" @click="showq = !showq" v-show="showc">
             Add Question
             <v-icon right>add</v-icon>
           </v-btn>
@@ -156,7 +156,7 @@
 
                   <v-list-tile-content>
                     <v-list-tile-title>
-                      <div class="headline"id="name">
+                      <div class="headline" id="name">
                       </div>
                     </v-list-tile-title>
                   </v-list-tile-content>
@@ -219,12 +219,12 @@
 
       <br>
       <v-flex app >
-      <v-card>
+      <v-card v-for="item in post">
         <v-container
           fluid
         >
           <v-layout row wrap>
-            <v-flex sm10>
+            <v-flex sm10 >
               <v-card flat>
               <v-card-actions>
                 
@@ -238,9 +238,10 @@
 
                   <v-list-tile-content>
                     <v-list-tile-title>
-                      <div id="name1" class="headline">
-                      Evan You
+                      <div  class="headline">{{item.data().data.author}}
                       </div>
+                      
+                      
                     </v-list-tile-title>
                   </v-list-tile-content>
 
@@ -254,8 +255,8 @@
             <v-flex sm2 fill-height>
 
               <v-card flat>
-                <v-btn flat block color="green"><v-icon x-large>keyboard_arrow_up</v-icon>68</v-btn>
-                <v-btn flat block color="red"><v-icon x-large>keyboard_arrow_down</v-icon>24</v-btn>
+                <v-btn flat block color="green"><v-icon x-large>keyboard_arrow_up</v-icon>{{item.data().data.upvote}}</v-btn>
+                <v-btn flat block color="red"><v-icon x-large>keyboard_arrow_down</v-icon>{{item.data().data.downvote}}</v-btn>
               </v-card>
 
             </v-flex>
@@ -264,8 +265,7 @@
         <v-flex px-3>
         <v-card-title primary-title>
           <div>
-            <div class="display-1">Which is the best IIT? I am really confused between IIT B or IIT K?</div>
-            <span class="grey--text">P.S. Only tell me the ones among top 5</span>
+            <div class="display-1">{{item.data().data.query}}</div>
           </div>
         </v-card-title>
         </v-flex>
@@ -282,18 +282,18 @@
 
         <v-card-actions>
 
-           <v-btn flat color="green">
+           <v-btn @click="upvote(item)" flat color="green">
             Upvote
             <v-icon small right>thumb_up</v-icon>
           </v-btn>
 
-          <v-btn flat color="red">
+          <v-btn @click="downvote(item)" flat color="red">
             Downvote
             <v-icon small right>thumb_down</v-icon>
           </v-btn>
 
           <v-spacer></v-spacer>
-          <v-btn flat @click="show = !show">
+          <v-btn flat @mousedown="comment(item)" @mouseup="show = !show">
             Comments
             <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
           </v-btn>
@@ -303,7 +303,7 @@
           <v-card-text v-show="show">
             <hr>
             <br>
-            <v-card color="grey lighten-3">
+            <v-card v-for="(com,index) in comms" color="grey lighten-3">
               <v-container
                fluid
               >
@@ -322,8 +322,7 @@
 
                         <v-list-tile-content>
                           <v-list-tile-title>
-                            <div class="headline">
-                            Barrack Obama
+                            <div class="headline">{{com.data().author}}
                             </div>
                           </v-list-tile-title>
                         </v-list-tile-content>
@@ -337,8 +336,8 @@
 
                   <v-flex sm2 fill-height>
                     <v-card color="grey lighten-3" flat>
-                      <v-btn flat block color="green"><v-icon x-large>keyboard_arrow_up</v-icon>12</v-btn>
-                      <v-btn flat block color="red"><v-icon x-large>keyboard_arrow_down</v-icon>3</v-btn>
+                      <v-btn flat block color="green"><v-icon x-large>keyboard_arrow_up</v-icon>{{com.data().upvote}}</v-btn>
+                      <v-btn flat block color="red"><v-icon x-large>keyboard_arrow_down</v-icon>{{com.data().downvote}}</v-btn>
                     </v-card>
 
                   </v-flex>
@@ -347,25 +346,25 @@
               <v-flex pa-3>
                 <v-card flat color="grey lighten-4">
                   <v-flex pa-3>
-                  <span class=" headline font-weight-light">I think USA has best colleges. bcoz Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem veniam voluptatum, dicta maiores quae eveniet accusamus, quibusdam provident, amet officia est? Minus, tempora? Cupiditate debitis repellendus ut laboriosam, a numquam!</span>
+                  <span class=" headline font-weight-light">{{com.data().cmt}}</span>
                   </v-flex>
                 </v-card>
               </v-flex>
 
               <v-card-actions>
 
-                <v-btn flat color="green">
+                <v-btn @click="up(com,index)" flat color="green">
                   Upvote
                   <v-icon small right>thumb_up</v-icon>
                 </v-btn>
 
-                <v-btn flat color="red">
+                <v-btn @click="down(com,index)" flat color="red">
                   Downvote
                   <v-icon small right>thumb_down</v-icon>
                 </v-btn>
 
                 <v-spacer></v-spacer>
-                <v-btn flat @click="showr = !showr">
+                <v-btn flat @mouseup="reply(com)" @click="showr = !showr">
                   Reply
                   <v-icon>{{ showr ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
                 </v-btn>
@@ -375,7 +374,7 @@
                 <v-card-text v-show="showr">
                   <hr>
                   <br>
-                  <v-card flat color="grey lighten-4">
+                  <v-card v-for="reply in replies" flat color="grey lighten-4">
                     <v-card-actions>
                       <v-list-tile class="grow">
                         <v-list-tile-avatar color="grey darken-3">
@@ -387,7 +386,7 @@
                         </v-list-tile-avatar>
 
                         <v-list-tile-content>
-                          <v-list-tile-title><span>Nobel Prize denewala</span></v-list-tile-title>
+                          <v-list-tile-title><span>{{reply.author}}</span></v-list-tile-title>
                         </v-list-tile-content>
 
                       </v-list-tile>
@@ -395,52 +394,23 @@
                     <v-flex pa-3>
                       <v-card flat color="grey lighten-4">
                         <v-flex px-3>
-                        <span class="subheading font-weight-light">Congo bhai. Isi baat pe nobel prize lelo.</span>
-                        </v-flex>
-                      </v-card>
-                    </v-flex>
-
-                  </v-card>
-
-                  <br>
-                  <v-card flat color="grey lighten-4">
-                    <v-card-actions>
-                      <v-list-tile class="grow">
-                        <v-list-tile-avatar color="grey darken-3">
-                          <v-img
-                            class="elevation-6"
-                            size="50%"
-                            src="https://randomuser.me/api/portraits/men/74.jpg"
-                          ></v-img>
-                        </v-list-tile-avatar>
-
-                        <v-list-tile-content>
-                          <v-list-tile-title><span>Nobel Prize lenewala</span></v-list-tile-title>
-                        </v-list-tile-content>
-
-                      </v-list-tile>
-                    </v-card-actions>
-
-                    <v-flex pa-3>
-                      <v-card flat color="grey lighten-4">
-                        <v-flex px-3>
-                        <span class="subheading font-weight-light">Congo bhai. Party do.</span>
+                        <span class="subheading font-weight-light">{{reply.rep}}</span>
                         </v-flex>
                       </v-card>
                     </v-flex>
                   </v-card>
-
                   <br>
-
                   <v-card flat color="grey lighten-3">
                     <v-flex >
                       <v-text-field
+                      v-model="rep"
                         label="Write a reply..."
                         solo
                         background-color="grey lighten-4"
                         clearable
                       >
                       </v-text-field>
+                      <v-btn @click="preply(com)" depressed small>POST</v-btn>
                     </v-flex>
 
                   </v-card>
@@ -453,12 +423,14 @@
             <v-card color="grey lighten-3" v-show="!showr">
                 <v-flex px-3 pt-4>
                   <v-text-field
+                    v-model="answer"
                     label="Write an answer..."
                     solo
                     background-color="grey lighten-4"
                     clearable
                   >
                   </v-text-field>
+                  <v-btn @click="pcomment(item)" depressed small>POST</v-btn>
                 </v-flex>
 
               </v-card>
@@ -466,7 +438,7 @@
           </v-card-text>
         </v-slide-y-transition>
       </v-card>
-
+        
       </v-flex>
 
       </v-container>
@@ -531,13 +503,21 @@ import { constants } from 'crypto';
         drawer: true,
         mini: true,
         right: null,
+        answer:"",
+        rep:"",
         show: false,
-        select: ['IITB', 'IITK'],
+        replies: [],
+        num:0,
+        post: [],
+        comms: [],
+        select: [],
         showr:false,
         showq:false,
-        itemscb: ['IITB', 'IITK', 'IITD', 'IITKGP', 'IITM'],
+        showc:true,
+        str:"",
+        itemscb: ["General"],
         dropdown: ['All Questions', 'Your Questions', 'Recommended'],
-        model: ['General'],
+        model: [],
         items: [
           { title: 'Home', icon: 'dashboard' },
           { title: 'About', icon: 'question_answer' },
@@ -630,42 +610,154 @@ import { constants } from 'crypto';
           ? (item, search, textKey) => item[textKey].indexOf(search) > -1
           : undefined
       }
+      
     },
     created(){
-
+      var vm=this,d,js;
+      var docr=db.collection("posts");
+      docr.get().then(function(snapshot) {
+        vm.post=snapshot.docs;
+      });
+      var cll = db.collection("colleges");
+        cll.get().then(function(snapshot) {
+          snapshot.docs.forEach(doc => {
+            if(doc.id!="src"&& doc.id!="ID")
+            vm.itemscb.push(doc.id);
+          });
+        });
+        console.log(this.itemscb);
     },
-    mounted(){
+    mounted() {
       var user = firebase.auth().currentUser;
-      if(user.emailVerified){
-        // this.dropdown[1]="Answered Questions";
-        // console.log(this.dropdown);    
-        document.getElementById("ques").style.display ="none"
-        
-       }
-       else{
-         this.dropdown.splice(2);
-        console.log("poop");
-       }
+      var q,w;
+      if(user.emailVerified) 
+        document.getElementById("ques").style.display ="none";
     },
     methods: {
+      preply(com){
+        var user = firebase.auth().currentUser;
+        var vm=this;
+        var arr=com.data().replies;
+        console.log(arr);
+        arr.push({
+          author: user.displayName,
+          rep: vm.rep
+        });
+        console.log(arr);
+        var setWithMerge = db.collection("comments").doc(com.id).set({
+                 replies:arr
+            }, { merge: true });
+      },
+      pcomment(iden){
+        var user = firebase.auth().currentUser;
+        var vm=this;
+        var en=iden.id+iden.data().count;
+        var c=iden.data().count+1;
+        console.log(en,c);
+        db.collection("comments").doc(en).set({
+          author: user.displayName,
+          cmt: vm.answer,
+          id: iden.id,
+          upvote: 0,
+          downvote: 0,
+          count: 0,
+          replies: []
+        }).then(() =>{
+          db.collection("posts").doc(iden.id).update({
+            count: c
+          })
+        })
+        
+        // return ref.update({
+        //     'comments' : data
+        // }).then(function() {
+        //     console.log("Document successfully updated!");
+        // })
+      },
+      reply(comment){
+        console.log(comment);
+        this.replies=comment.data().replies;
+      },
+      comment(iden){
+        console.log(iden.id);
+        var vm=this;
+        var dr=db.collection("comments").where("id","==",iden.id);
+        dr.get().then(function(snapshot) {
+          vm.comms=snapshot.docs;
+          console.log(vm.comms);
+        })
+      },
+      up(com,ind){
+        console.log(ind);
+        console.log(com.data());
+        var count=com.data().upvote+1;
+        console.log(count);
+        db.collection("comments").doc(com.id).update({
+          "upvote": count
+        })   
+      },
+      down(com,ind){
+        console.log(ind);
+        console.log(com.data());
+        var count=com.data().downvote+1;
+        console.log(count);
+        db.collection("comments").doc(com.id).update({
+          "downvote": count
+        })   
+      },
+      upvote(doc){
+        console.log(doc.id);
+        var count=doc.data().data.upvote+1;
+        console.log(count);
+        var ref = db.collection("posts").doc(doc.id);
+        return ref.update({
+            "data.upvote": count
+        })
+        .then(function() {
+            console.log("Document successfully updated!");
+        })
+        // this.$forceUpdate();        
+      },
+      downvote(doc){
+        console.log(doc.id);
+        var count=doc.data().data.downvote+1;
+        console.log(count);
+        var ref = db.collection("posts").doc(doc.id);
+        return ref.update({
+            "data.downvote": count
+        })
+        .then(function() {
+            console.log("Document successfully updated!");
+        })        
+      },
       f(){
         var user = firebase.auth().currentUser;
         console.log(user.displayName);
         document.getElementById("name").innerHTML= user.displayName;
-      },
+        },
       send(){
-        var user = firebase.auth().currentUser;
+        var user = firebase.auth().currentUser;var i;
+        console.log("KH");
           // Add a new document with a generated id.
+          var vm=this;
+            console.log(vm.model);
+            vm.str=JSON.stringify(vm.model);
+            console.log(vm.str);
         db.collection("posts").add({
-            author: user.displayName,
+          data: {
+           // author: user.displayName,
             downvote: 0,
             upvote: 0,
             query: document.getElementById("query").value,
-
+            tags: vm.model
+          }
         })
         .then(function(docRef) {
-            console.log("Document written with ID: ", docRef.id);
+            i=docRef.id;
+            console.log("Document written with ID: ", i);
         })
+        // //route
+      
       }
     }
     
