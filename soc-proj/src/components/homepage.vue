@@ -78,21 +78,21 @@
               </v-flex>
 
               <v-flex sm8>
-              <v-text-field
-                v-model="password"
-                :append-icon="show1 ? 'visibility' : 'visibility_off'"
-                :rules="[rules.required, rules.min]"
-                :type="show1 ? 'text' : 'password'"
-                box
-                dark
-                name="input-10-1"
-                label="Password"
-                hint="At least 8 characters"
-                counter
-                clearable
-                @click:append="show1 = !show1"
-                id="pass"
-              ></v-text-field>
+             <v-text-field
+                      v-model="password"
+                      :append-icon="show1 ? 'visibility' : 'visibility_off'"
+                      :rules="[rules.required, rules.min]"
+                      :type="show1 ? 'text' : 'password'"
+                      box
+                      dark
+                      name="input-10-1"
+                      label="Password"
+                      hint="At least 8 characters"
+                      counter
+                      clearable
+                      @click:append="show1 = !show1"
+                      id="pass"
+                    ></v-text-field>
               <v-card-actions>
     <v-layout justify-center>
     
@@ -131,7 +131,7 @@ src="http://realpinkaz.com/wp-content/uploads/web-design-background-montreal-web
      <div class="pa-5">
           <div class="text-xs-center ma-5">
   <v-btn outline color="orange" route to="/college"  large> <h1>COLLEGES</h1></v-btn>
-   <v-btn outline color="orange" large route to="/forum"><h1>FORUM</h1></v-btn>
+   <v-btn outline color="orange" large @click="func()"><h1>FORUM</h1></v-btn>
    </div>
    </div>
         </v-img>
@@ -169,12 +169,13 @@ export default {
             const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
             return pattern.test(value) || 'Invalid e-mail.'
           },
-          show1: false,
+         
             show2: true,
             show3: false,
             show4: false,
             password: 'Password'
-          }
+          },
+           show1: false,
         
     }},
     mounted(){
@@ -202,6 +203,7 @@ export default {
               alert("Wrong credentials. Re-enter.");
 
             })
+            
             //var user= firebase.auth().currentUser;
             //console.log(user);
             
@@ -216,7 +218,18 @@ export default {
             
         },
         m: function(){
-        this.$router.push("/profile");
+          var vm=this;
+          this.$router.push("/profile");
+        },
+        func(){
+          var vm=this;
+          var user= firebase.auth().currentUser;
+          if(user){
+            vm.$router.push("/forum");
+          }
+          else{
+            alert("Please login first.");
+          }
         },
         mm: function(){
           auth.signOut().then(() =>{
@@ -229,24 +242,7 @@ export default {
         f: function(){
              var user= firebase.auth().currentUser;
              console.log(user);
-            // var provider = new firebase.auth.GoogleAuthProvider();
-            // firebase.auth().signInWithPopup(provider).then(function(result) {
-            //   // This gives you a Google Access Token. You can use it to access the Google API.
-            //   var token = result.credential.accessToken;
-            //   // The signed-in user info.
-            //   var user = result.user;
-            //   console.log("boo");
-            //   // ...
-            // }).catch(function(error) {
-            //   // Handle Errors here.
-            //   var errorCode = error.code;
-            //   var errorMessage = error.message;
-            //   // The email of the user's account used.
-            //   var email = error.email;
-            //   // The firebase.auth.AuthCredential type that was used.
-            //   var credential = error.credential;
-            //   // ...
-            // });
+            
             if(user.emailVerified){
               //document.getElementById("lmao").style.display="none";
               //document.getElementById("lol").style.display="none";

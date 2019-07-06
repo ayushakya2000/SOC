@@ -1,3 +1,4 @@
+
 <template>
   <v-parallax src="https://images.pexels.com/photos/531880/pexels-photo-531880.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" height="100vh">
     <v-app style = "background: rgb(0,0,0,0)" fill-height>
@@ -99,45 +100,46 @@
 
                 <v-flex xs12 md5>
                   <v-img
-                    src="https://scontent.flko3-1.fna.fbcdn.net/v/t1.0-9/59839122_2349267375398556_5855625142826172416_n.jpg?_nc_cat=105&_nc_oc=AQnFXO9CdwJSF6iRmSsGvsW0QOLGM9K-gu9FhVWsT8AbkoQzxaOJryW1Mu1uiLG_Iov-MvH3CXYtYSeJd4TvNYOo&_nc_ht=scontent.flko3-1.fna&oh=9f1173fa0c190b9f3a983fccc51f3024&oe=5D7A97B0"
+                    id="image"
                     height="350px"
-                    contain
+                    contain 
                   ></v-img>
                 </v-flex>
 
                 <v-flex xs12 md7 align-self-end>
                   <v-card-title primary-title>
                     <div>
-                      <div class="display-3 font-weight-thin">Ayush Shakya</div>
-                      <div class="headline"><v-icon dark left>fas fa-user-shield</v-icon>Contributor/Moderator</div>
-                      <div class="headline">Indian Institue of Technology, Kanpur</div>
-                      <div class="headline">Chemistry (BS)</div>
-                      <div class="title font-weight-thin">#euu934ru472</div>
+                      <div class="display-3 font-weight-thin" id="name" ></div>
+                      <v-icon dark left>fas fa-user-shield</v-icon><div class="headline" id="type"></div>
+                      <div class="headline" id="college"></div>
+                      <div class="headline" id="branch"></div>
+                      <div class="title font-weight-thin" id="hashtag"></div>
                     </div>
                   </v-card-title>
                 </v-flex>
-                
+            
               </v-layout>
               <v-divider light></v-divider>
               <v-flex>
                   <v-container fluid grid-list-xl>
                       <v-layout row justify-space-around>
                         <v-layout justify-end>
-                          <v-btn fab dark large color="#3b5998">
+                          <v-btn fab dark large color="#3b5998" v-on:click.native='fb'>
                           <v-icon dark>fab fa-facebook-f</v-icon>
                           </v-btn>
                         </v-layout>
                         <v-layout justify-center>
-                          <v-btn fab dark large color="black">
+                          <v-btn fab dark large color="black" v-on:click.native='github'>
                           <v-icon dark>fab fa-github</v-icon>
                           </v-btn>
                         </v-layout>
                         <v-layout>
                           <v-flex xs9>
-                          <v-btn fab dark large color="#CC3333">
+                          <v-btn fab dark large color="#CC3333" v-on:click.native='gmail'>
                           <v-icon dark>fab fa-google</v-icon>
                           </v-btn>
                           </v-flex>
+                         <v-btn @click="retrieve()">sign</v-btn> 
                           <v-flex align-self-end xs3>
 
                             <v-layout row justify-center>
@@ -155,38 +157,38 @@
                                     <v-container grid-list-md>
                                       <v-layout wrap>
                                         <v-flex xs12 sm6 md4>
-                                          <v-text-field label="First name*" required value="Ayush"></v-text-field>
+                                          <v-text-field label="First name*" id="fn" required value="Ayush"></v-text-field>
                                         </v-flex>
                                         <v-flex xs12 sm6 md4>
-                                          <v-text-field label="Middle name"></v-text-field>
+                                          <v-text-field label="Middle name" id="mn" ></v-text-field>
                                         </v-flex>
                                         <v-flex xs12 sm6 md4>
                                           <v-text-field
-                                            label="Last name*"
+                                            label="Last name*" id="ln"
                                             value="Shakya"
                                             required
                                           ></v-text-field>
                                         </v-flex>
                                         <v-flex xs12>
-                                          <v-text-field label="Facebook ID link*" required></v-text-field>
+                                          <v-text-field label="Facebook ID link*" id="link1" required></v-text-field>
                                         </v-flex>
                                         <v-flex xs12>
-                                          <v-text-field label="Github ID link*" required></v-text-field>
+                                          <v-text-field label="Github ID link*" id= "link2" required></v-text-field>
                                         </v-flex>
                                         <v-flex xs12>
-                                          <v-text-field label="Google Account link*" required></v-text-field>
+                                          <v-text-field label="Google Account link*" id = "link3" required></v-text-field>
                                         </v-flex>
 
                                         <v-flex xs12>
                                           <v-text-field label="Profile Picture link*"
-                                          value="https://scontent.flko3-1.fna.fbcdn.net/v/t1.0-9/59839122_2349267375398556_5855625142826172416_n.jpg?_nc_cat=105&_nc_oc=AQnFXO9CdwJSF6iRmSsGvsW0QOLGM9K-gu9FhVWsT8AbkoQzxaOJryW1Mu1uiLG_Iov-MvH3CXYtYSeJd4TvNYOo&_nc_ht=scontent.flko3-1.fna&oh=9f1173fa0c190b9f3a983fccc51f3024&oe=5D7A97B0"
+                                          value="link" id="link4"
                                           required></v-text-field>
                                         </v-flex>
 
                                         <v-flex xs12 sm6>
                                           <v-select
                                             :items="['15','16','17', '18','19','20', '21', '22', '23', '25', '25+']"
-                                            label="Age*"
+                                            label="Age*" id="umar"
                                             value="19"
                                             required
                                           ></v-select>
@@ -194,7 +196,7 @@
                                         <v-flex xs12 sm6>
                                           <v-select
                                             :items="['Aerospace Engineering','Biological Sciences & Bio-Engineering','Chemical Engineering','Chemistry (BS)','Civil Engineering','Computer Science & Engineering', 'Earth Sciences (BS)', 'Electrical Engineering', 'Economics (BS)','Material Science & Engineering','Mathematics & Scientific Computing','Mechanical Engineering', 'Physics (BS)']"
-                                            label="Branch*"
+                                            label="Branch" id="field"
                                             value="Chemistry (BS)"
                                             required
                                           ></v-select>
@@ -206,7 +208,7 @@
                                   <v-card-actions>
                                     <v-spacer></v-spacer>
                                     <v-btn color="blue darken-1" flat @click="dialog = false">Close</v-btn>
-                                    <v-btn color="blue darken-1" flat @click="dialog = false">Save</v-btn>
+                                    <v-btn color="blue darken-1" flat @click="update()">Save</v-btn>
                                   </v-card-actions>
                                 </v-card>
                               </v-dialog>
@@ -230,6 +232,7 @@
 </template>
 
 <script>
+
   export default {
     data () {
       return {
@@ -243,6 +246,7 @@
         right: null
       }
     },
+
     methods:{
        mm: function(){
           auth.signOut().then(() =>{
@@ -250,6 +254,119 @@
            });
           this.$router.push("/")
         },
+         retrieve: function(){
+          
+        //var ID = document.getElementById("ID").value;
+        var docRef = db.collection("users").doc("hello@gmail.com");
+
+    docRef.get().then(function(doc) {
+      if (doc.exists) {
+        //   console.log("Document data:", doc.data().Name)
+          document.getElementById("name").innerHTML= doc.data().first + " " + doc.data().middle + " " + doc.data().last;
+          document.getElementById("college").innerHTML = doc.data().College;
+          document.getElementById("branch").innerHTML = doc.data().Branch; 
+          document.getElementById("hashtag").innerHTML = doc.data().hashtag;
+          document.getElementById("type").innerHTML = doc.data().type;
+          var img = document.getElementById("image");
+          img.src = doc.data().profile;
+
+        
+    } else {
+        // doc.data() will be undefined in this case
+        alert("No such document!");
     }
-  }
+}).catch(function(error) {
+    console.log("Error getting document:", error);
+});
+
+    },
+     
+
+    fb: function(event) {
+      
+    var docRef = db.collection("users").doc("hello@gmail.com");
+
+    docRef.get().then(function(doc) {
+      var fb = doc.data().facebook;
+         
+       if (doc.exists && fb) {
+         window.open(fb);
+       } else {
+        // doc.data() will be undefined in this case
+         alert("Not found!!");
+    }
+     }).catch(function(error) {
+         console.log("Error getting document:", error);
+            });       
+    },
+
+    gmail: function(event) {
+      
+    var docRef = db.collection("users").doc("hello@gmail.com");
+
+    docRef.get().then(function(doc) {
+      var gmail = doc.data().gmail;
+         
+       if (doc.exists && doc.data().gmail) {
+         window.open(gmail);
+       } else {
+        // doc.data() will be undefined in this case
+         alert("Not found!!");
+    }
+     }).catch(function(error) {
+         console.log("Error getting document:", error);
+            });       
+    },
+
+
+    github: function(event) {
+      
+    var docRef = db.collection("users").doc("hello@gmail.com");
+
+    docRef.get().then(function(doc) {
+      var github = doc.data().github;
+         
+       if (doc.exists && doc.data().github) {
+         window.open(github);
+       } else {
+        // doc.data() will be undefined in this case
+         alert("Not found!!");
+    }
+     }).catch(function(error) {
+         console.log("Error getting document:", error);
+            });       
+    },
+
+    update: function () {
+      var fn = document.getElementById("fn").value;
+      var mn = document.getElementById("mn").value;
+      var ln = document.getElementById("ln").value;
+      var link1 = document.getElementById("link1").value;
+      var link2 = document.getElementById("link2").value;
+      var link3 = document.getElementById("link3").value;
+      var link4 = document.getElementById("link4").value;
+      var umar = document.getElementById("umar").value;
+      var field = document.getElementById("field").value;
+   //if(fn && ln && link1 && link2 && link3 && link4 && umar && field){
+      db.collection("users").doc("hello@gmail.com").update({
+        first: fn,
+        middle: mn,
+        last: ln,
+        facebook: link1,
+        github: link2,
+        gmail: link3,
+        profile: link4,
+        Age: umar,
+        Branch: field 
+      })
+  // }
+    // else
+    //   alert("Fields are Required!!!" , fn, ln, link1, link2, link3, link4, umar, field);
+      
+    } 
+ }
+
+}
+
+
 </script>

@@ -219,7 +219,7 @@
 
       <br>
       <v-flex app >
-      <v-card v-for="item in post">
+      <v-card v-for="item in post" v-if="item.data().data.downvote<=3">
         <v-container
           fluid
         >
@@ -272,7 +272,7 @@
         <br>
         <v-flex xs12 px-3>
           <v-combobox
-            v-model="select"
+            v-model="item.data().data.tags"
             label="Tagged"
             chips
             multiple
@@ -303,7 +303,7 @@
           <v-card-text v-show="show">
             <hr>
             <br>
-            <v-card v-for="(com,index) in comms" color="grey lighten-3">
+            <v-card v-for="(com,index) in comms" v-if="com.data().downvote<=3" color="grey lighten-3">
               <v-container
                fluid
               >
@@ -503,6 +503,7 @@ import { constants } from 'crypto';
         drawer: true,
         mini: true,
         right: null,
+        college: "",
         answer:"",
         rep:"",
         show: false,
@@ -614,6 +615,7 @@ import { constants } from 'crypto';
     },
     created(){
       var vm=this,d,js;
+      var user = firebase.auth().currentUser;
       var docr=db.collection("posts");
       docr.get().then(function(snapshot) {
         vm.post=snapshot.docs;
@@ -626,6 +628,11 @@ import { constants } from 'crypto';
           });
         });
         console.log(this.itemscb);
+      if(user.isemailVerified){
+          db.collection("users").doc(user.email).get().then(function(doc){
+          vm.college=doc.data().college;
+        })
+      };
     },
     mounted() {
       var user = firebase.auth().currentUser;
@@ -651,28 +658,32 @@ import { constants } from 'crypto';
       pcomment(iden){
         var user = firebase.auth().currentUser;
         var vm=this;
-        var en=iden.id+iden.data().count;
-        var c=iden.data().count+1;
-        console.log(en,c);
-        db.collection("comments").doc(en).set({
-          author: user.displayName,
-          cmt: vm.answer,
-          id: iden.id,
-          upvote: 0,
-          downvote: 0,
-          count: 0,
-          replies: []
-        }).then(() =>{
-          db.collection("posts").doc(iden.id).update({
-            count: c
-          })
-        })
-        
-        // return ref.update({
-        //     'comments' : data
-        // }).then(function() {
-        //     console.log("Document successfully updated!");
-        // })
+        if(user.isemailVerified){
+          if(iden.data().tags.indexOf(vm.college)>=0){
+            var en=iden.id+iden.data().count;
+            var c=iden.data().count+1;
+            console.log(en,c);
+            db.collection("comments").doc(en).set({
+              author: user.displayName,
+              cmt: vm.answer,
+              id: iden.id,
+              upvote: 0,
+              downvote: 0,
+              count: 0,
+              replies: []
+            }).then(() =>{
+              db.collection("posts").doc(iden.id).update({
+                count: c
+              })
+            })
+          }
+          else{
+            alert("You are not authorized to answer this question.");
+          }
+        }
+        else{
+          alert("You are not authorized to answer any question.");
+        };
       },
       reply(comment){
         console.log(comment);
@@ -716,6 +727,7 @@ import { constants } from 'crypto';
         .then(function() {
             console.log("Document successfully updated!");
         })
+
         // this.$forceUpdate();        
       },
       downvote(doc){

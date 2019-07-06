@@ -143,7 +143,7 @@
                               <h2>Verify your mail</h2>
                             </v-card-title>
                             <v-card-actions>
-                              <v-btn dark @click="f()">
+                              <v-btn dark @mouseup="uf()" @mousedown="f()">
                                 <span>submit to verify</span>
                               </v-btn>
                             </v-card-actions>
@@ -329,16 +329,21 @@ console.log(data+"KJ");
       // ...
     });
     },
+    uf(){
+      var vm=this;
+      
+    },
     f() {
       var user = firebase.auth().currentUser;
+      var vm=this;
 
       user.sendEmailVerification().then(function() {
         console.log("qwerty");
+      auth.signOut().then(() =>{
+          console.log("logged out");
+          vm.$router.push("/");
+           });
       });
-
-     
-
-      this.$rouster.push("/profile")
     }
   }
 };
