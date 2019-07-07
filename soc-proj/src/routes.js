@@ -4,11 +4,14 @@ import college from './components/college.vue'
 import icollege from './components/icollege.vue'
 import forum from './components/forum.vue'
 import profile from './components/ProfilePage.vue'
+import sprofile from './components/SearchProfile.vue'
+
 export default[
     {path:'/', component: homepage },
     {path:'/login', component:login },
     {path:'/college', component: college },
     {path:'/icollege', component: icollege },
     {path:'/forum',component:forum},
-    {path:'/profile',component:profile}
+    {path:'/profile',component:profile},
+    {path:'/sprofile',component:sprofile}
 ]

@@ -105,24 +105,7 @@ src="http://realpinkaz.com/wp-content/uploads/web-design-background-montreal-web
   </v-layout>   
 
 
-   <v-footer
-   color="rgb(0,0,0,0.7)" 
-    dark
-    height="auto"
    
-  >
-    <v-card
-      class="flex"
-      flat
-      tile
-    >
-    
-
-      <v-card-actions class="grey darken-3 justify-center">
-        &copy;2019 — <strong>Me&TheBoys</strong>
-      </v-card-actions>
-    </v-card>
-  </v-footer>
 </div>
 
 </v-app>
@@ -148,6 +131,9 @@ export default {
             { title: 'IIT Madras', src: 'https://images.static-collegedunia.com/public/college_data/images/appImage/1509430807cover.jpg',id:'IIT Madras'},
             { title: 'IIT Roorkee ', src: 'http://www.indiaeducation.net/imagesvr_ce/8764/IIT-Rp1.jpg',id:'IIT Roorkee'}, 
              { title: 'IIT Varanasi', src: 'https://images.static-collegedunia.com/public/college_data/images/appImage/150936663225947IITBHUNew.jpg',id:'IIT Varanasi'},
+             {title:'BITS Goa', src:'https://img.collegepravesh.com/2014/02/BITS-Goa.jpg',id:'BITS Pilani Goa Campus'},
+             {title:'BITS Hyderabad', src:'https://img.collegepravesh.com/2014/02/BITS-Hyderabad.jpg',id:'BITS Pilani Hyderabad Campus'},
+             {title:'BITS Pilani',src:'https://images.static-collegedunia.com/public/college_data/images/appImage/25800_BITS_App.jpg',id:'BITS Pilani Pilani Campus'}
       
       ]
     }),

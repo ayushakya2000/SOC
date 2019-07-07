@@ -92,27 +92,10 @@
             clear-i
                 
           ></v-text-field>
-          <v-checkbox
-            v-model="caseSensitive"
-            dark
-            hide-details
-            label="Case sensitive search"
-          ></v-checkbox>
+          
         </v-sheet>
         <v-card-text>
-          <v-treeview
-            :items="items"
-            :search="search"
-            :filter="filter"
-            :open.sync="open"
-          >
-            <template v-slot:prepend="{ item }">
-              <v-icon
-                v-if="item.children"
-                v-text="`mdi-${item.id === 1 ? 'home-variant' : 'folder-network'}`"
-              ></v-icon>
-            </template>
-          </v-treeview>
+          
         </v-card-text>
       </v-card>
       </v-flex>
@@ -207,7 +190,7 @@
 
           <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn flat @click="send()">
+          <v-btn flat @mouseup="dnes()" @mousedown="send()">
             Submit
             <v-icon right>send</v-icon>
           </v-btn>
@@ -420,7 +403,7 @@
 
             </v-card>
             <br>
-            <v-card color="grey lighten-3" v-show="!showr">
+            <v-card color="grey lighten-3" v-show="show">
                 <v-flex px-3 pt-4>
                   <v-text-field
                     v-model="answer"
@@ -519,74 +502,6 @@ import { constants } from 'crypto';
         itemscb: ["General"],
         dropdown: ['All Questions', 'Your Questions', 'Recommended'],
         model: [],
-        items: [
-          { title: 'Home', icon: 'dashboard' },
-          { title: 'About', icon: 'question_answer' },
-        {
-          id: 1,
-          name: 'Vuetify Human Res',
-          children: [
-            {
-              id: 2,
-              name: 'Core team',
-              children: [
-                {
-                  id: 201,
-                  name: 'John'
-                },
-                {
-                  id: 202,
-                  name: 'Kael'
-                },
-                {
-                  id: 203,
-                  name: 'Nekosaur'
-                },
-                {
-                  id: 204,
-                  name: 'Jacek'
-                },
-                {
-                  id: 205,
-                  name: 'Andrew'
-                }
-              ]
-            },
-            {
-              id: 3,
-              name: 'Administrators',
-              children: [
-                {
-                  id: 301,
-                  name: 'Ranee'
-                },
-                {
-                  id: 302,
-                  name: 'Rachel'
-                }
-              ]
-            },
-            {
-              id: 4,
-              name: 'Contributors',
-              children: [
-                {
-                  id: 401,
-                  name: 'Phlow'
-                },
-                {
-                  id: 402,
-                  name: 'Brandon'
-                },
-                {
-                  id: 403,
-                  name: 'Sean'
-                }
-              ]
-            }
-          ]
-        }
-      ],
       open: [1, 2],
       search: null,
       caseSensitive: false
@@ -613,7 +528,7 @@ import { constants } from 'crypto';
       }
       
     },
-    created(){
+    mounted(){
       var vm=this,d,js;
       var user = firebase.auth().currentUser;
       var docr=db.collection("posts");
@@ -628,13 +543,12 @@ import { constants } from 'crypto';
           });
         });
         console.log(this.itemscb);
-      if(user.isemailVerified){
-          db.collection("users").doc(user.email).get().then(function(doc){
+      if(user.emailVerified){
+          db.collection("users").doc(user.displayName).get().then(function(doc){
           vm.college=doc.data().college;
+          console.log(vm.college);
         })
       };
-    },
-    mounted() {
       var user = firebase.auth().currentUser;
       var q,w;
       if(user.emailVerified) 
@@ -658,8 +572,9 @@ import { constants } from 'crypto';
       pcomment(iden){
         var user = firebase.auth().currentUser;
         var vm=this;
-        if(user.isemailVerified){
-          if(iden.data().tags.indexOf(vm.college)>=0){
+        //console.log(iden.data().tags);
+        if(user.emailVerified){
+          if(iden.data().data.tags.indexOf(vm.college)>=0){
             var en=iden.id+iden.data().count;
             var c=iden.data().count+1;
             console.log(en,c);
@@ -717,30 +632,42 @@ import { constants } from 'crypto';
         })   
       },
       upvote(doc){
-        console.log(doc.id);
-        var count=doc.data().data.upvote+1;
-        console.log(count);
-        var ref = db.collection("posts").doc(doc.id);
-        return ref.update({
-            "data.upvote": count
-        })
-        .then(function() {
-            console.log("Document successfully updated!");
-        })
+        var user=firebase.auth().currentUser;
+        if(user.emailVerified){
+          console.log(doc.id);
+          var count=doc.data().data.upvote+1;
+          console.log(count);
+          var ref = db.collection("posts").doc(doc.id);
+          return ref.update({
+              "data.upvote": count
+          })
+          .then(function() {
+              console.log("Document successfully updated!");
+          })
+        }
+        else{
+          alert("Not authorized to do this action.");
+        }
 
         // this.$forceUpdate();        
       },
       downvote(doc){
-        console.log(doc.id);
-        var count=doc.data().data.downvote+1;
-        console.log(count);
-        var ref = db.collection("posts").doc(doc.id);
-        return ref.update({
-            "data.downvote": count
-        })
-        .then(function() {
-            console.log("Document successfully updated!");
-        })        
+        var user=firebase.auth().currentUser;
+        if(user.emailVerified){
+          console.log(doc.id);
+          var count=doc.data().data.downvote+1;
+          console.log(count);
+          var ref = db.collection("posts").doc(doc.id);
+          return ref.update({
+              "data.downvote": count
+          })
+          .then(function() {
+              console.log("Document successfully updated!");
+          })
+        }
+        else{
+          alert("Not authorized to do this action.");
+        }        
       },
       f(){
         var user = firebase.auth().currentUser;
@@ -757,8 +684,10 @@ import { constants } from 'crypto';
             console.log(vm.str);
         db.collection("posts").add({
           data: {
-           // author: user.displayName,
+            author: user.displayName,
+            count: 0,
             downvote: 0,
+            disp: false,
             upvote: 0,
             query: document.getElementById("query").value,
             tags: vm.model
@@ -768,8 +697,12 @@ import { constants } from 'crypto';
             i=docRef.id;
             console.log("Document written with ID: ", i);
         })
+        
         // //route
       
+      },
+      dnes(){
+        this.$router.push("/forum");
       }
     }
     

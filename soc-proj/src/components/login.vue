@@ -69,8 +69,8 @@
                     </v-layout>
                   </v-flex>
                   
-                  <v-btn id="gog" @click="google()" block color="primary" class="mx-2">GOOGLE SIGN IN</v-btn>
-                  <v-container id="drop" grid-list-xl>
+                  <!-- <v-btn id="gog" @click="google()" block color="primary" class="mx-2">GOOGLE SIGN IN</v-btn> -->
+                  <!-- <v-container id="drop" grid-list-xl>
                     <v-flex xs12 id="coll">
                       <v-overflow-btn
                       dark
@@ -82,12 +82,11 @@
                         id="col"
                       ></v-overflow-btn>
                     </v-flex>
-                  </v-container>
-                  
-                    <v-flex xs12 id="lo">
+                  </v-container> -->
+                    <v-flex xs12 >
                       <v-layout justify-space-around>
-                  <div class="display-1">
-                    <v-chip outline  color="orange" class="headline"><span class="ma-1">Institute Name</span></v-chip></div>
+                  <div id="lo" v-show="lo" class="display-1">
+                    <v-chip outline  color="orange" class="headline"><span class="ma-1">Institute Name</span></v-chip>
                     <v-chip label color="white" outline>
                   <select id="loc">
                     <option class="white black--text heading "   v-for="item in dropdown" :key="item">
@@ -97,11 +96,11 @@
 
                   </select>
                     </v-chip>
+                    </div>
                       </v-layout>
                     </v-flex>
-                  
 
-                  <v-flex id="hid" sm8>
+                  <v-flex id="hid" v-show="hid" sm8>
                     <v-text-field
                       box
                       dark
@@ -115,7 +114,7 @@
                     ></v-text-field>
                   </v-flex>
 
-                  <v-flex id="hide" sm8>
+                  <v-flex id="hide" v-show="hide" sm8>
                     <v-text-field
                       v-model="password"
                       :append-icon="show1 ? 'visibility' : 'visibility_off'"
@@ -138,7 +137,33 @@
                             <span>submit</span>
                           </v-btn>
 
-                          <v-card>
+                           <v-card>
+  
+  <v-card-title >
+     <v-layout justify-center>
+    <center>
+    <h2 class="ma-5 ">Verify Your Mail <br>
+    <v-divider  color="primary"></v-divider> To continue as Contributor</h2>
+</center>
+</v-layout>
+</v-card-title>
+    
+    
+    
+    <v-card-actions>
+    <v-layout justify-center align-center column wrap>
+      <v-flex xs4>
+        <center>
+    <v-btn dark class="mb-3" color="red" to="/login" @mouseup="uf()" @mousedown="f()" ><span>Click to Verify</span></v-btn><br>
+    <v-divider  color="primary"></v-divider>
+     <v-btn dark  class="my-3" color="red" to="/login" @mouseup="uf()" @mousedown="f1()" ><span>Aspirant-click here</span></v-btn>
+</center> 
+ </v-flex>
+   </v-layout>
+    </v-card-actions>
+    
+</v-card>
+                          <!-- <v-card>
                             <v-card-title>
                               <h2>Verify your mail</h2>
                             </v-card-title>
@@ -147,7 +172,7 @@
                                 <span>submit to verify</span>
                               </v-btn>
                             </v-card-actions>
-                          </v-card>
+                          </v-card> -->
                         </v-dialog>
                       </v-layout>
                     </v-card-actions>
@@ -212,6 +237,9 @@ export default {
       loading3: false,
       loading4: false,
       dropdown: [],
+      lo: false,
+      hid: true,
+      hide: true,
       message:'',
       title: "",
       email: "",
@@ -243,9 +271,10 @@ export default {
     document.getElementById("hid").style.display = "none";
     document.getElementById("hide").style.display = "none";
     document.getElementById("hidden").style.display = "none";
-    document.getElementById("coll").style.display = "none";
-    document.getElementById("lo").style.display = "none";
-    document.getElementById("gog").style.display = "none";
+    // document.getElementById("coll").style.display = "none";
+    // document.getElementById("lo").style.display = "none";
+    // document.getElementById("gog").style.display = "none";
+    //  document.getElementById("check").style.display = "none";
   },
   methods: {
     funct(data){
@@ -278,28 +307,31 @@ console.log(data+"KJ");
           })
           .then(function() {
             console.log(email, pass);
+            db.collection("users").doc(user.displayName).set({
+              mailid: email,
+              college: document.getElementById("loc").value
+            });
           });
       });
-      //console.log(email,pass);
-      //console.log("qwertyuiop"+user);
+      
     },
 
     asp() {
-      document.getElementById("hid").style.display = "none";
-      document.getElementById("hide").style.display = "none";
-      document.getElementById("hidden").style.display = "none";
-      document.getElementById("coll").style.display = "none";
-      document.getElementById("gog").style.display = "block";
-      document.getElementById("lo").style.display = "none";
+      
+      this.lo=false;
+     
+      this.dropdown=[];
+      document.getElementById("hid").style.display = "block";
+    document.getElementById("hide").style.display = "block";
+    document.getElementById("hidden").style.display = "block";
     },
     con() {
       var vm = this;
-      document.getElementById("gog").style.display = "none";
+      vm.lo=true;
       document.getElementById("hid").style.display = "block";
-      document.getElementById("hide").style.display = "block";
-      document.getElementById("hidden").style.display = "block";
-      document.getElementById("coll").style.display = "block";
-      document.getElementById("lo").style.display = "block";
+    document.getElementById("hide").style.display = "block";
+    document.getElementById("hidden").style.display = "block";
+    
       var cll = db.collection("colleges");
       cll.get().then(function(snapshot) {
         snapshot.docs.forEach(doc => {
@@ -307,32 +339,16 @@ console.log(data+"KJ");
           vm.dropdown.push(doc.id);
         });
       });
-      document.getElementById("drop").remove();
+      //document.getElementById("drop").remove();
     },
-    google(){
-      var provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider).then(function(result) {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      var token = result.credential.accessToken;
-      // The signed-in user info.
-      var user = result.user;
-      console.log(user);
-      // ...
-    }).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // The email of the user's account used.
-      var email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
-      var credential = error.credential;
-      // ...
-    });
-    },
-    uf(){
+    f1(){
       var vm=this;
-      
+ auth.signOut().then(() =>{
+          console.log("logged out");
+          vm.$router.push("/");
+           });
     },
+    
     f() {
       var user = firebase.auth().currentUser;
       var vm=this;

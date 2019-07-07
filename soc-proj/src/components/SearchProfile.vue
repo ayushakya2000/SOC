@@ -64,13 +64,109 @@
         <v-list-tile-content>
           <v-list-tile-title>{{ item.title }}</v-list-tile-title>
         </v-list-tile-content>
+       
       </v-list-tile>
+      <v-dialog width="600">
+       <v-btn slot="activator"> 
+            <v-icon left class="mr-5">assessment</v-icon>
+            <span>  Top Rated Contributor</span>
+            </v-btn>
+             <v-card>
+      <v-container
+        fluid
+        grid-list-lg
+      >
+        <v-layout row wrap>
+         
+
+          
+
+          <v-flex xs6 class="my-2">
+            <v-card color="blue-grey darken-2" class="white--text">
+              <v-layout row>
+                <v-flex xs7>
+                  <v-card-title primary-title>
+                    <div>
+                      <div class="headline">Halycon Days</div>
+                    <div>Rating</div>
+                    </div>
+                  </v-card-title>
+                </v-flex>
+                <v-flex xs5>
+                  
+                </v-flex>
+              </v-layout>
+             
+            </v-card>
+
+          </v-flex>
+           <v-flex xs6 class="my-2">
+            <v-card color="blue-grey darken-2" class="white--text">
+              <v-layout row>
+                <v-flex xs7>
+                  <v-card-title primary-title>
+                    <div>
+                      <div class="headline">Halycon Days</div>
+                    <div>Rating</div>
+                    </div>
+                  </v-card-title>
+                </v-flex>
+                <v-flex xs5>
+                  
+                </v-flex>
+              </v-layout>
+             
+            </v-card>
+            
+          </v-flex>
+           <v-flex xs6 class="my-2">
+            <v-card color="blue-grey darken-2" class="white--text">
+              <v-layout row>
+                <v-flex xs7>
+                  <v-card-title primary-title>
+                    <div>
+                      <div class="headline">Halycon Days</div>
+                    <div>Rating</div>
+                    </div>
+                  </v-card-title>
+                </v-flex>
+                <v-flex xs5>
+                  
+                </v-flex>
+              </v-layout>
+             
+            </v-card>
+            
+          </v-flex>
+           <v-flex xs6 class="my-2">
+            <v-card color="blue-grey darken-2" class="white--text">
+              <v-layout row>
+                <v-flex xs7>
+                  <v-card-title primary-title>
+                    <div>
+                      <div class="headline">Halycon Days</div>
+                    <div>Rating</div>
+                    </div>
+                  </v-card-title>
+                </v-flex>
+                <v-flex xs5>
+                  
+                </v-flex>
+              </v-layout>
+             
+            </v-card>
+            
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-card>
+            </v-dialog>
     </v-list>
   </v-navigation-drawer>
 
     <br><br><br><br>
 
-    <v-layout>
+    <v-layout class="mt-5">
         <v-flex app xs10 sm8 offset-sm2 offset-xs3>
             <v-card flat color="rgba(255,255,255,0.1)">
                 <v-container
@@ -78,21 +174,21 @@
                     grid-list-lg
                 >   
                     <v-card color="rgba(0,0,0,0.3)">
-                    <v-text-field
-                        append-icon="mic"
-                        class="mx-3 pt-3"
-                        flat
-                        dark
-                        label="Search"
-                        prepend-inner-icon="search"
-                        solo-inverted
-                    ></v-text-field>
+                   <v-text-field
+        dark
+        v-model="search"
+        class="mx-3"
+        flat
+        label="Search"
+        prepend-inner-icon="search"
+        solo-inverted
+      ></v-text-field>
                     </v-card>
                     
                     <br>
-                    <v-layout row wrap>
+                    <v-layout row wrap justify-center class="mt-5">
                     <v-flex xs12 sm6>
-                        <v-card color="rgb(0,128,128,0.6)" class="white--text">
+                        <v-card v-for="item in filter" v-if="filter.length<=2" :key="item.id" color="rgb(0,128,128,0.6)" class="white--text headline">
                             <v-layout row wrap>
                                 <v-flex xs12 md5>
                                 <v-img
@@ -102,189 +198,45 @@
                                 ></v-img>
                                 </v-flex>
 
-                                <v-flex xs12 md7 align-self-center>
+                                <v-flex xs12 md7 justify-center align-center>
                                 <v-card-title primary-title>
                                     <div>
-                                    <div class="headline font-weight-thin">Ayush Shakya</div>
-                                    <div class="subheading"><v-icon dark left>fas fa-user-shield</v-icon>Contributor/Moderator</div>
-                                    <div class="subheading">Indian Institue of Technology, Kanpur</div>
-                                    <div class="subheading">Chemistry (BS)</div>
-                                    <div class="title font-weight-thin">#euu934ru472</div>
+                                    <div class="headline font-weight-thin">{{item.id}}</div>
+                                    <div class="subheading"><v-icon dark left>fas fa-user-shield</v-icon>{{item.data().role}}</div>
+                                    <div class="subheading">{{item.data().college}}</div>
+                                    <div class="subheading">{{item.data().branch}}</div>
                                     </div>
                                 </v-card-title>
                                 </v-flex>
                                 
                             </v-layout>
-                            <v-divider light></v-divider>
-                            <v-flex>
-                                <v-container fluid grid-list-xl>
-                                    <v-layout row wrap>
-                                        <v-layout justify-end>
+                            <v-divider color="black" light></v-divider>
+                            
+                                
+                                    <v-layout class="ma-3 pb-4" row wrap justify-space-around>
+                                        
                                             <v-btn fab dark large color="#3b5998">
                                             <v-icon dark>fab fa-facebook-f</v-icon>
                                             </v-btn>
-                                        </v-layout>
-                                        <v-layout justify-center>
+                                       
+                                        
                                             <v-btn fab dark large color="black">
                                             <v-icon dark>fab fa-github</v-icon>
                                             </v-btn>
-                                        </v-layout>
-                                        <v-layout>
+                                        
                                             <v-btn fab dark large color="#CC3333">
                                             <v-icon dark>fab fa-google</v-icon>
                                             </v-btn>
-                                        </v-layout>
+                                        
                                     </v-layout>
-                                </v-container>
-                            </v-flex>
+                                
+                            
                         </v-card>
                     </v-flex>
                     <br>
-                    <v-flex xs12 sm6>
-                        <v-card color="rgb(0,128,128,0.6)" class="white--text">
-                            <v-layout row wrap>
-                                <v-flex xs12 md5>
-                                <v-img
-                                    src="https://scontent.flko3-1.fna.fbcdn.net/v/t1.0-9/59839122_2349267375398556_5855625142826172416_n.jpg?_nc_cat=105&_nc_oc=AQnFXO9CdwJSF6iRmSsGvsW0QOLGM9K-gu9FhVWsT8AbkoQzxaOJryW1Mu1uiLG_Iov-MvH3CXYtYSeJd4TvNYOo&_nc_ht=scontent.flko3-1.fna&oh=9f1173fa0c190b9f3a983fccc51f3024&oe=5D7A97B0"
-                                    height="150px"
-                                    contain
-                                ></v-img>
-                                </v-flex>
-
-                                <v-flex xs12 md7 align-self-center>
-                                <v-card-title primary-title>
-                                    <div>
-                                    <div class="headline font-weight-thin">Ayush Shakya</div>
-                                    <div class="subheading"><v-icon dark left>fas fa-user-shield</v-icon>Contributor/Moderator</div>
-                                    <div class="subheading">Indian Institue of Technology, Kanpur</div>
-                                    <div class="subheading">Chemistry (BS)</div>
-                                    <div class="title font-weight-thin">#euu934ru472</div>
-                                    </div>
-                                </v-card-title>
-                                </v-flex>
-                                
-                            </v-layout>
-                            <v-divider light></v-divider>
-                            <v-flex>
-                                <v-container fluid grid-list-xl>
-                                    <v-layout row justify-space-around>
-                                        <v-layout justify-end>
-                                            <v-btn fab dark large color="#3b5998">
-                                            <v-icon dark>fab fa-facebook-f</v-icon>
-                                            </v-btn>
-                                        </v-layout>
-                                        <v-layout justify-center>
-                                            <v-btn fab dark large color="black">
-                                            <v-icon dark>fab fa-github</v-icon>
-                                            </v-btn>
-                                        </v-layout>
-                                        <v-layout>
-                                            <v-btn fab dark large color="#CC3333">
-                                            <v-icon dark>fab fa-google</v-icon>
-                                            </v-btn>
-                                        </v-layout>
-                                    </v-layout>
-                                </v-container>
-                            </v-flex>
-                        </v-card>
-                    </v-flex>
-
-                    <v-flex xs12 sm6>
-                        <v-card color="rgb(0,128,128,0.6)" class="white--text">
-                            <v-layout row wrap>
-                                <v-flex xs12 md5>
-                                <v-img
-                                    src="https://scontent.flko3-1.fna.fbcdn.net/v/t1.0-9/59839122_2349267375398556_5855625142826172416_n.jpg?_nc_cat=105&_nc_oc=AQnFXO9CdwJSF6iRmSsGvsW0QOLGM9K-gu9FhVWsT8AbkoQzxaOJryW1Mu1uiLG_Iov-MvH3CXYtYSeJd4TvNYOo&_nc_ht=scontent.flko3-1.fna&oh=9f1173fa0c190b9f3a983fccc51f3024&oe=5D7A97B0"
-                                    height="150px"
-                                    contain
-                                ></v-img>
-                                </v-flex>
-
-                                <v-flex xs12 md7 align-self-center>
-                                <v-card-title primary-title>
-                                    <div>
-                                    <div class="headline font-weight-thin">Ayush Shakya</div>
-                                    <div class="subheading"><v-icon dark left>fas fa-user-shield</v-icon>Contributor/Moderator</div>
-                                    <div class="subheading">Indian Institue of Technology, Kanpur</div>
-                                    <div class="subheading">Chemistry (BS)</div>
-                                    <div class="title font-weight-thin">#euu934ru472</div>
-                                    </div>
-                                </v-card-title>
-                                </v-flex>
-                                
-                            </v-layout>
-                            <v-divider light></v-divider>
-                            <v-flex>
-                                <v-container fluid grid-list-xl>
-                                    <v-layout row justify-space-around>
-                                        <v-layout justify-end>
-                                            <v-btn fab dark large color="#3b5998">
-                                            <v-icon dark>fab fa-facebook-f</v-icon>
-                                            </v-btn>
-                                        </v-layout>
-                                        <v-layout justify-center>
-                                            <v-btn fab dark large color="black">
-                                            <v-icon dark>fab fa-github</v-icon>
-                                            </v-btn>
-                                        </v-layout>
-                                        <v-layout>
-                                            <v-btn fab dark large color="#CC3333">
-                                            <v-icon dark>fab fa-google</v-icon>
-                                            </v-btn>
-                                        </v-layout>
-                                    </v-layout>
-                                </v-container>
-                            </v-flex>
-                        </v-card>
-                    </v-flex>
-                    <v-flex xs12 sm6>
-                        <v-card color="rgb(0,128,128,0.6)" class="white--text">
-                            <v-layout row wrap>
-                                <v-flex xs12 md5>
-                                <v-img
-                                    src="https://scontent.flko3-1.fna.fbcdn.net/v/t1.0-9/59839122_2349267375398556_5855625142826172416_n.jpg?_nc_cat=105&_nc_oc=AQnFXO9CdwJSF6iRmSsGvsW0QOLGM9K-gu9FhVWsT8AbkoQzxaOJryW1Mu1uiLG_Iov-MvH3CXYtYSeJd4TvNYOo&_nc_ht=scontent.flko3-1.fna&oh=9f1173fa0c190b9f3a983fccc51f3024&oe=5D7A97B0"
-                                    height="150px"
-                                    contain
-                                ></v-img>
-                                </v-flex>
-
-                                <v-flex xs12 md7 align-self-center>
-                                <v-card-title primary-title>
-                                    <div>
-                                    <div class="headline font-weight-thin">Ayush Shakya</div>
-                                    <div class="subheading"><v-icon dark left>fas fa-user-shield</v-icon>Contributor/Moderator</div>
-                                    <div class="subheading">Indian Institue of Technology, Kanpur</div>
-                                    <div class="subheading">Chemistry (BS)</div>
-                                    <div class="title font-weight-thin">#euu934ru472</div>
-                                    </div>
-                                </v-card-title>
-                                </v-flex>
-                                
-                            </v-layout>
-                            <v-divider light></v-divider>
-                            <v-flex>
-                                <v-container fluid grid-list-xl>
-                                    <v-layout row justify-space-around>
-                                        <v-layout justify-end>
-                                            <v-btn fab dark large color="#3b5998">
-                                            <v-icon dark>fab fa-facebook-f</v-icon>
-                                            </v-btn>
-                                        </v-layout>
-                                        <v-layout justify-center>
-                                            <v-btn fab dark large color="black">
-                                            <v-icon dark>fab fa-github</v-icon>
-                                            </v-btn>
-                                        </v-layout>
-                                        <v-layout>
-                                            <v-btn fab dark large color="#CC3333">
-                                            <v-icon dark>fab fa-google</v-icon>
-                                            </v-btn>
-                                        </v-layout>
-                                    </v-layout>
-                                </v-container>
-                            </v-flex>
-                        </v-card>
-                    </v-flex>
+                    
+                    
+                  
                     </v-layout>
                 </v-container>
             </v-card>
@@ -300,13 +252,28 @@
     data () {
       return {
         drawer: true,
+        search:'',
+        userdoc: [],
         items: [
           { title: 'Home', icon: 'dashboard' },
-          { title: 'About', icon: 'question_answer' }
+          { title: 'About', icon: 'question_answer' },
         ],
         mini: true,
         right: null
       }
-    }
+    },
+    created() {
+        var vm=this;
+        db.collection("users").get().then(function(snapshot){
+            vm.userdoc=snapshot.docs;
+        })
+    },
+    computed: {
+          filter: function(){
+            return this.userdoc.filter((item)=>{
+                return item.id.toLowerCase().match(this.search.toLowerCase())
+            })
+        }
+    },
   }
 </script>

@@ -10,7 +10,7 @@
         <span class="font-weight-light white--text">college</span>
       </v-toolbar-title>
   <v-spacer></v-spacer>
-  <v-dialog width="600">
+  <v-dialog width="650">
      <v-btn slot="activator" id="lmao" large flat >
       <span >SIGN UP</span>
      <v-icon right large>account_circle</v-icon>
@@ -18,10 +18,10 @@
     <v-card>
   
   <v-card-title >
-    <h2 class="ma-5">Wanna Ask Question? <br> Sign In with Google</h2>
+    <h2 class="ma-5">Wanna Ask Question? <br> Sign Up as Aspirant</h2>
 
     <v-divider vertical color="primary"></v-divider>
-    <h2 class="ma-5">Help Aspirants?!<br> Create Account</h2></v-card-title>
+    <h2 class="ma-5">Help Aspirants?!<br> Sign Up as Contributor</h2></v-card-title>
     
     <v-card-actions>
     <v-layout justify-center>
@@ -96,7 +96,7 @@
               <v-card-actions>
     <v-layout justify-center>
     
-<v-btn dark color="rgb(0,0,0,0.5)" @mousedown="m()" @mouseover="fnnnn()" slot="activator"><span>submit</span></v-btn>
+<v-btn dark color="rgb(0,0,0,0.5)" @click="m()" @mousedown="fnnnn()" slot="activator"><span>submit</span></v-btn>
 
   
     </v-layout>
@@ -196,12 +196,14 @@ export default {
     methods:{
         fnnnn:function(){
             const email=document.getElementById('email').value;
+            var vm=this;
             const password=document.getElementById('pass').value;
             auth.signInWithEmailAndPassword(email, password).then(cred => {
-                console.log(cred.user+"jkj")
+                console.log(cred.user+"jkj");
+                vm.$router.push("/profile");
             }).catch(function(error){
               alert("Wrong credentials. Re-enter.");
-
+              
             })
             
             //var user= firebase.auth().currentUser;
@@ -219,7 +221,9 @@ export default {
         },
         m: function(){
           var vm=this;
-          this.$router.push("/profile");
+          var user= firebase.auth().currentUser;
+          //if(user)
+          
         },
         func(){
           var vm=this;
