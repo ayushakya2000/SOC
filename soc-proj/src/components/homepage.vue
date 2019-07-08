@@ -132,6 +132,26 @@ src="http://realpinkaz.com/wp-content/uploads/web-design-background-montreal-web
           <div class="text-xs-center ma-5">
   <v-btn outline color="orange" route to="/college"  large> <h1>COLLEGES</h1></v-btn>
    <v-btn outline color="orange" large @click="func()"><h1>FORUM</h1></v-btn>
+    <v-snackbar
+    
+      v-model="snackbar"
+     color="red"
+      :multi-line="mode === 'multi-line'"
+      class="subheading"
+      :timeout="timeout"
+   
+      :vertical="mode === 'vertical'"
+      
+    >
+      {{ text }}
+      <v-btn
+        color="black"
+        
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
    </div>
    </div>
         </v-img>
@@ -148,6 +168,12 @@ src="http://realpinkaz.com/wp-content/uploads/web-design-background-montreal-web
 export default {
   data () {
       return{
+        snackbar: false,
+        y: 'top',
+        x: null,
+        mode: '',
+        timeout: 6000,
+        text: 'Please LogIn First!',
       cards: [
         
         { title: 'FORUM', src: 'https://www.unitec.ac.nz/sites/default/files/public/_resampled/group-study_2.jpg-821x405.jpg',flex:6},
@@ -232,7 +258,8 @@ export default {
             vm.$router.push("/forum");
           }
           else{
-            alert("Please login first.");
+            // alert("Please login first.");
+            this.snackbar=true;
           }
         },
         mm: function(){

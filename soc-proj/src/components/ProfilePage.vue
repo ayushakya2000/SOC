@@ -5,68 +5,37 @@
     <v-toolbar  app color="rgb(0,0,0,0.7)" dark >
     <v-toolbar-title class="headline text-uppercase" dark>
      <v-layout row wrap>
-     <v-btn fab small route to="/" flat>
-        <span class="display-1"></span>
-     </v-btn>
+     
         <v-flex pt-2 mt-1>
         <span class=" grey--text">get </span>
         <span class="font-weight-light white--text">college</span>
         </v-flex>
+       
      </v-layout>
+     
       </v-toolbar-title>
       
-  <v-spacer></v-spacer>
-   
+   <v-spacer></v-spacer>
+   <v-btn @click="movec()" large flat>
+          <v-icon left >fa fa-users</v-icon>
+      <span >CONTRIBUTORS</span>
+     
+     
+    </v-btn>
+        <v-btn @click="move()" large flat>
+          <v-icon left >fa fa-tasks</v-icon>
+      <span >FORUM</span>
+     
+     
+    </v-btn>
+    <v-btn @mousedown="mm()" @mouseup="mn()" large flatzyy >
+      <span >LOGOUT</span>
+     <v-icon right large>perm_identity</v-icon>
+     
+    </v-btn>
     </v-toolbar>
 
-    <v-navigation-drawer
-    v-model="drawer"
-    app dark
-    :mini-variant.sync="mini"
-    hide-overlay
-    stateless
-  >
-    <v-toolbar flat class="transparent">
-      <v-list class="pa-0">
-        <v-list-tile avatar>
-          <v-list-tile-avatar>
-            <img src="https://randomuser.me/api/portraits/men/85.jpg">
-          </v-list-tile-avatar>
-
-          <v-list-tile-content>
-            <v-list-tile-title>John Leider</v-list-tile-title>
-          </v-list-tile-content>
-
-          <v-list-tile-action>
-            <v-btn
-              icon
-              @click.stop="mini = !mini"
-            >
-              <v-icon>chevron_left</v-icon>
-            </v-btn>
-          </v-list-tile-action>
-        </v-list-tile>
-      </v-list>
-    </v-toolbar>
-
-    <v-list class="pt-0" dense>
-      <v-divider></v-divider>
-
-      <v-list-tile
-        v-for="item in items"
-        :key="item.title"
-        @click=""
-      >
-        <v-list-tile-action>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-tile-action>
-
-        <v-list-tile-content>
-          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-    </v-list>
-  </v-navigation-drawer>
+    
 
     <br><br><br>
     <v-layout
@@ -80,7 +49,7 @@
       >
       <v-layout fill-height>
       <v-flex align-self-center fill-height>
-    <v-card v-for="em in docu" flat color="rgba(0,0,0,0)">
+    <v-card flat color="rgba(0,0,0,0)">
       <v-container
         fluid
         justify-center align-center
@@ -92,19 +61,24 @@
 
                 <v-flex xs12 md5>
                   <v-img
-                    src=em.pfp
+                  class="ma-3"
+                    id="img1"
+                    :src=emage
                     height="350px"
                     contain
+
                   ></v-img>
                 </v-flex>
 
                 <v-flex xs12 md7 align-self-end>
                   <v-card-title primary-title>
                     <div>
-                      <div class="display-3 font-weight-thin">{{em.id}}</div>
-                      <div class="headline"><v-icon dark left>fas fa-user-shield</v-icon>{{em.data().role}}</div>
-                      <div class="headline">{{em.data().college}}</div>
-                      <div class="headline">{{em.data().branch}}</div>
+                      <div class="display-3 font-weight-thin">{{name}}</div>
+                      <div class="headline"><v-icon dark left>fas fa-user-shield</v-icon>{{role}}</div>
+                      <div class="headline"><v-icon dark left> fa fa-university</v-icon> {{institute}}</div>
+                      <div class="headline"><v-icon dark left>fa fa-graduation-cap</v-icon> {{branch}}</div>
+                      <div class="headline"><v-icon dark left>fa fa-birthday-cake</v-icon> {{age}}</div>
+                      <div class="headline"><v-icon dark left>fa fa-star</v-icon> {{rating}}</div>
                     </div>
                   </v-card-title>
                 </v-flex>
@@ -115,19 +89,27 @@
                   <v-container fluid grid-list-xl>
                       <v-layout row justify-space-around>
                         <v-layout justify-end>
-                          <v-btn fab dark large color="#3b5998">
+                        
+                          <v-btn :href=fblink target="_blank" fab dark large color="#3b5998">
+                          <center>
                           <v-icon dark>fab fa-facebook-f</v-icon>
+                          </center>
                           </v-btn>
+                           
                         </v-layout>
                         <v-layout justify-center>
-                          <v-btn fab dark large color="black">
+                          <v-btn :href=gitlink target="_blank" fab dark large color="black">
+                          <center>
                           <v-icon dark>fab fa-github</v-icon>
+                          </center>
                           </v-btn>
                         </v-layout>
                         <v-layout>
                           <v-flex xs9>
-                          <v-btn fab dark large color="#CC3333">
+                          <v-btn :href=glink target="_blank" fab dark large color="#CC3333">
+                          <center>
                           <v-icon dark>fab fa-google</v-icon>
+                          </center>
                           </v-btn>
                           </v-flex>
                           <v-flex align-self-end xs3>
@@ -147,32 +129,27 @@
                                     <v-container grid-list-md>
                                       <v-layout wrap>
                                         <v-flex xs12>
-                                          <v-text-field id="fb" label="Facebook ID link*" required></v-text-field>
+                                          <v-text-field id="fb" label="Facebook ID link*" required v-model="fblink"></v-text-field>
                                         </v-flex>
                                         <v-flex xs12>
-                                          <v-text-field id="git" label="Github ID link*" required></v-text-field>
+                                          <v-text-field id="git" label="Github ID link*" required v-model="gitlink"> </v-text-field>
                                         </v-flex>
                                         <v-flex xs12>
-                                          <v-text-field id="gog" label="Google Account link*" required></v-text-field>
+                                          <v-text-field id="gog" label="Google Account link*" required v-model="glink"></v-text-field>
                                         </v-flex>
 
                                         <v-flex xs12>
                                           <v-text-field id="pfp" label="Profile Picture link*"
-                                          value="https://scontent.flko3-1.fna.fbcdn.net/v/t1.0-9/59839122_2349267375398556_5855625142826172416_n.jpg?_nc_cat=105&_nc_oc=AQnFXO9CdwJSF6iRmSsGvsW0QOLGM9K-gu9FhVWsT8AbkoQzxaOJryW1Mu1uiLG_Iov-MvH3CXYtYSeJd4TvNYOo&_nc_ht=scontent.flko3-1.fna&oh=9f1173fa0c190b9f3a983fccc51f3024&oe=5D7A97B0"
-                                          required></v-text-field>
+                                          value=""
+                                          required v-model="emage"></v-text-field>
                                         </v-flex>
 
                                         <v-flex xs12 sm6>
-                                          <v-select
-                                            :items="['15','16','17', '18','19','20', '21', '22', '23', '25', '25+']"
-                                            label="Age*"
-                                            value="19"
-                                            id="age"
-                                            required
-                                          ></v-select>
+                                           <v-text-field id="age" label="Age*" required v-model="age"></v-text-field>
                                         </v-flex>
                                         <v-flex xs12 sm6>
                                           <v-select
+                                          v-model="branch"
                                             :items="['Aerospace Engineering','Biological Sciences & Bio-Engineering','Chemical Engineering','Chemistry (BS)','Civil Engineering','Computer Science & Engineering', 'Earth Sciences (BS)', 'Electrical Engineering', 'Economics (BS)','Material Science & Engineering','Mathematics & Scientific Computing','Mechanical Engineering', 'Physics (BS)']"
                                             label="Branch*"
                                             value="Chemistry (BS)"
@@ -182,7 +159,7 @@
                                         </v-flex>
                                       </v-layout>
                                     </v-container>
-                                    <small>*indicates required field</small>
+                                    
                                   </v-card-text>
                                   <v-card-actions>
                                     <v-spacer></v-spacer>
@@ -216,7 +193,16 @@
       return {
         drawer: true,
         dialog:false,
-        docu: [],
+        emage:'',
+        name:'',role:'',
+        institute:'',
+        rating:'',
+        fblink:'',
+        gitlink:'',
+        glink:'',
+        age:'',
+        branch:'',
+                docu: null,
         items: [
           { title: 'Home', icon: 'dashboard' },
           { title: 'About', icon: 'question_answer' }
@@ -225,39 +211,72 @@
         right: null
       }
     },
-    created(){
+    mounted(){
       var user = firebase.auth().currentUser;var str;
       var vm=this;
       console.log(user.displayName);
       var docr=db.collection("users").doc(user.displayName);
       if(user.emailVerified){
         str="Contributor";
+        docr.update({
+        role: str,
+        rating: 50
+      })
       }
       else{
         str="Aspirant";
-      }
-      docr.update({
-        role: str
+        docr.update({
+        role: str,
+        rating: "0"
       })
-      docr.get().then(function(doc){
-        vm.docu.push(doc);
-        console.log(vm.docu[0].data());
+      }
+      vm.listener=docr.onSnapshot(function(doc){
+        console.log(doc.data());
+        vm.name=doc.id;
+        vm.institute=doc.data().college;
+        vm.role=doc.data().role;
+        vm.rating=doc.data().rating;
+        vm.emage=doc.data().pfp;
+        vm.fblink=doc.data().fb;
+        vm.gitlink=doc.data().git;
+        vm.glink=doc.data().google;
+        vm.age=doc.data().age;
+        vm.branch=doc.data().branch;
+        document.getElementById("img1").setAttribute("src",doc.data().pfp);
+        
       })
     },
+    beforeDestroy(){
+      this.listener();
+    },
     methods :{
+       movec(){
+        this.$router.push("/sprofile")
+      },
+      mn(){
+        this.$router.push("/");
+      },
+       mm: function(){
+          auth.signOut().then(() =>{
+          console.log("logged out");
+           });},
+      move(){
+        this.$router.push("/forum");
+      },
       uf(){
         this.$router.push("/profile");
       },
       func(){
         var user = firebase.auth().currentUser;
-      db.collection("users").doc(user.displayName).update({
-        fb: document.getElementById("fb").value,
-        git: document.getElementById("git").value,
-        google: document.getElementById("gog").value,
-        pfp: document.getElementById("pfp").value,
-        age: document.getElementById("age").value,
-        branch: document.getElementById("branch").value
-      })
+        var vm=this;
+        db.collection("users").doc(user.displayName).update({
+          fb: vm.fblink,
+          git: vm.gitlink,
+          google: vm.glink,
+          pfp: vm.emage,
+          age: vm.age,
+          branch: vm.branch
+        })
       }
     }
   }

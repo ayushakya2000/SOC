@@ -154,7 +154,7 @@
     <v-layout justify-center align-center column wrap>
       <v-flex xs4>
         <center>
-    <v-btn dark class="mb-3" color="red" to="/login" @mouseup="uf()" @mousedown="f()" ><span>Click to Verify</span></v-btn><br>
+    <v-btn dark class="mb-3" color="red" to="/login"  @mouseup="uf()" @mousedown="f()" ><span>Click to Verify</span></v-btn><br>
     <v-divider  color="primary"></v-divider>
      <v-btn dark  class="my-3" color="red" to="/login" @mouseup="uf()" @mousedown="f1()" ><span>Aspirant-click here</span></v-btn>
 </center> 
@@ -271,10 +271,6 @@ export default {
     document.getElementById("hid").style.display = "none";
     document.getElementById("hide").style.display = "none";
     document.getElementById("hidden").style.display = "none";
-    // document.getElementById("coll").style.display = "none";
-    // document.getElementById("lo").style.display = "none";
-    // document.getElementById("gog").style.display = "none";
-    //  document.getElementById("check").style.display = "none";
   },
   methods: {
     funct(data){
@@ -300,7 +296,11 @@ console.log(data+"KJ");
         console.log(cred);
 
         var user = firebase.auth().currentUser;
-
+        var ol=document.getElementById("loc").value;
+        if(ol)
+        var ra=ol;
+        else
+        var ra="N/A";
         user.updateProfile({
             displayName: name,
             photoURL: "https://example.com/jane-q-user/profile.jpg"
@@ -309,7 +309,13 @@ console.log(data+"KJ");
             console.log(email, pass);
             db.collection("users").doc(user.displayName).set({
               mailid: email,
-              college: document.getElementById("loc").value
+              college: ra,
+              age:"18",
+              branch:"N/A",
+              fb:"",
+              git:"",
+              google:"",
+              pfp:"https://cdn4.iconfinder.com/data/icons/user-avatar-flat-icons/512/User_Avatar-04-512.png"
             });
           });
       });
@@ -343,7 +349,7 @@ console.log(data+"KJ");
     },
     f1(){
       var vm=this;
- auth.signOut().then(() =>{
+      auth.signOut().then(() =>{
           console.log("logged out");
           vm.$router.push("/");
            });

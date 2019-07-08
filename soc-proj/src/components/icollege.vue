@@ -1002,7 +1002,7 @@ export default {
         
         var poo; var g=[];var i,j=1;
         db.collection("colleges").doc("src").get().then(function(doc){
-          document.getElementById("img").src = doc.data().src;
+          document.getElementById("img").setAttribute("src", doc.data().src) ;
           console.log("done");
         })
         var newID=db.collection("colleges").doc("ID");

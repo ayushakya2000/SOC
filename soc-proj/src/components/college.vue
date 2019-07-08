@@ -50,11 +50,6 @@ src="http://realpinkaz.com/wp-content/uploads/web-design-background-montreal-web
         prepend-inner-icon="search"
         solo-inverted
       ></v-text-field>
-
-      
-   
-
-    
   </div>
 
   </v-flex>
@@ -73,7 +68,7 @@ src="http://realpinkaz.com/wp-content/uploads/web-design-background-montreal-web
    
       slot-scope="{ hover }"
       :class="`elevation-${hover ? 20 : 2}`"
-      @click="fn(card.id)"
+      @click="fn(card.id,card.src)"
       ripple>
        
         <v-img
@@ -145,15 +140,13 @@ export default {
         }
     },
     methods:{
-        fn: function(data){
+        fn: function(data,img){
             var Id = db.collection("colleges").doc("ID");
             Id.update({
                 ID: data
             })
-            Id.get().then(function(doc){
-                console.log(doc.data().ID)
-                
-                
+            db.collection("colleges").doc("src").update({
+              src: img
             })
             this.$router.push("/icollege")
             console.log("etry")

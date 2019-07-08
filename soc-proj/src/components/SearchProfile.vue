@@ -5,8 +5,8 @@
     <v-toolbar  app color="rgb(0,0,0,0.7)" dark >
     <v-toolbar-title class="headline text-uppercase" dark>
      <v-layout row wrap>
-     <v-btn fab small route to="/" flat>
-        <span class="display-1"></span>
+     <v-btn fab small @click="go()" flat>
+        <span class="display-1"><</span>
      </v-btn>
         <v-flex pt-2 mt-1>
         <span class=" grey--text">get </span>
@@ -67,7 +67,7 @@
        
       </v-list-tile>
       <v-dialog width="600">
-       <v-btn slot="activator"> 
+       <v-btn @click="func()" slot="activator"> 
             <v-icon left class="mr-5">assessment</v-icon>
             <span>  Top Rated Contributor</span>
             </v-btn>
@@ -77,18 +77,14 @@
         grid-list-lg
       >
         <v-layout row wrap>
-         
-
-          
-
           <v-flex xs6 class="my-2">
-            <v-card color="blue-grey darken-2" class="white--text">
+            <v-card v-for="item in cons" color="blue-grey darken-2" class="white--text">
               <v-layout row>
                 <v-flex xs7>
                   <v-card-title primary-title>
                     <div>
-                      <div class="headline">Halycon Days</div>
-                    <div>Rating</div>
+                      <div class="headline">{{item.id}}</div>
+                    <div>{{item.data().rating}}</div>
                     </div>
                   </v-card-title>
                 </v-flex>
@@ -99,63 +95,6 @@
              
             </v-card>
 
-          </v-flex>
-           <v-flex xs6 class="my-2">
-            <v-card color="blue-grey darken-2" class="white--text">
-              <v-layout row>
-                <v-flex xs7>
-                  <v-card-title primary-title>
-                    <div>
-                      <div class="headline">Halycon Days</div>
-                    <div>Rating</div>
-                    </div>
-                  </v-card-title>
-                </v-flex>
-                <v-flex xs5>
-                  
-                </v-flex>
-              </v-layout>
-             
-            </v-card>
-            
-          </v-flex>
-           <v-flex xs6 class="my-2">
-            <v-card color="blue-grey darken-2" class="white--text">
-              <v-layout row>
-                <v-flex xs7>
-                  <v-card-title primary-title>
-                    <div>
-                      <div class="headline">Halycon Days</div>
-                    <div>Rating</div>
-                    </div>
-                  </v-card-title>
-                </v-flex>
-                <v-flex xs5>
-                  
-                </v-flex>
-              </v-layout>
-             
-            </v-card>
-            
-          </v-flex>
-           <v-flex xs6 class="my-2">
-            <v-card color="blue-grey darken-2" class="white--text">
-              <v-layout row>
-                <v-flex xs7>
-                  <v-card-title primary-title>
-                    <div>
-                      <div class="headline">Halycon Days</div>
-                    <div>Rating</div>
-                    </div>
-                  </v-card-title>
-                </v-flex>
-                <v-flex xs5>
-                  
-                </v-flex>
-              </v-layout>
-             
-            </v-card>
-            
           </v-flex>
         </v-layout>
       </v-container>
@@ -192,8 +131,9 @@
                             <v-layout row wrap>
                                 <v-flex xs12 md5>
                                 <v-img
-                                    src="https://scontent.flko3-1.fna.fbcdn.net/v/t1.0-9/59839122_2349267375398556_5855625142826172416_n.jpg?_nc_cat=105&_nc_oc=AQnFXO9CdwJSF6iRmSsGvsW0QOLGM9K-gu9FhVWsT8AbkoQzxaOJryW1Mu1uiLG_Iov-MvH3CXYtYSeJd4TvNYOo&_nc_ht=scontent.flko3-1.fna&oh=9f1173fa0c190b9f3a983fccc51f3024&oe=5D7A97B0"
-                                    height="150px"
+                                class="ma-3"
+                                    :src="item.data().pfp"
+                                    height="250px"
                                     contain
                                 ></v-img>
                                 </v-flex>
@@ -205,6 +145,8 @@
                                     <div class="subheading"><v-icon dark left>fas fa-user-shield</v-icon>{{item.data().role}}</div>
                                     <div class="subheading">{{item.data().college}}</div>
                                     <div class="subheading">{{item.data().branch}}</div>
+                                    <div class="subheading">Rating: {{item.data().rating}}</div>
+                                    <div class="subheading">Age: {{item.data().age}}</div>
                                     </div>
                                 </v-card-title>
                                 </v-flex>
@@ -215,17 +157,20 @@
                                 
                                     <v-layout class="ma-3 pb-4" row wrap justify-space-around>
                                         
-                                            <v-btn fab dark large color="#3b5998">
+                                            <v-btn :href="item.data().fb" target="_blank" fab dark large color="#3b5998">
+                                            <center>
                                             <v-icon dark>fab fa-facebook-f</v-icon>
+                                            </center>
                                             </v-btn>
-                                       
-                                        
-                                            <v-btn fab dark large color="black">
+                                            <v-btn :href="item.data().git" target="_blank" fab dark large color="black">
+                                            <center>
                                             <v-icon dark>fab fa-github</v-icon>
+                                            </center>
                                             </v-btn>
-                                        
-                                            <v-btn fab dark large color="#CC3333">
+                                            <v-btn :href="item.data().google" target="_blank" fab dark large color="#CC3333">
+                                            <center>
                                             <v-icon dark>fab fa-google</v-icon>
+                                            </center>
                                             </v-btn>
                                         
                                     </v-layout>
@@ -254,6 +199,7 @@
         drawer: true,
         search:'',
         userdoc: [],
+        cons: [],
         items: [
           { title: 'Home', icon: 'dashboard' },
           { title: 'About', icon: 'question_answer' },
@@ -267,6 +213,17 @@
         db.collection("users").get().then(function(snapshot){
             vm.userdoc=snapshot.docs;
         })
+    },
+    methods :{
+      go(){
+        this.$router.go("-1");
+      },
+      func() {
+        var vm=this;
+        db.collection("users").orderBy("rating","desc").limit(4).get().then(function(snapshot){
+          vm.cons=snapshot.docs;
+        })
+      }
     },
     computed: {
           filter: function(){

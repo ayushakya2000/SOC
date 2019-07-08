@@ -3,9 +3,7 @@
     <v-toolbar  app color="rgb(0,0,0,0.7)" dark >
  <v-toolbar-title class="headline text-uppercase" dark>
      <v-layout row wrap>
-     <v-btn fab small route to="/" flat>
-        <span class="display-1"><</span>
-     </v-btn>
+    
         <v-flex pt-2 mt-1>
         <span class=" grey--text">get </span>
         <span class="font-weight-light white--text">college</span>
@@ -13,7 +11,19 @@
      </v-layout>
       </v-toolbar-title>
       
-  <v-spacer></v-spacer>
+   <v-spacer></v-spacer>
+   <v-btn @click="movec()" large flat>
+          <v-icon left >fa fa-users</v-icon>
+      <span >CONTRIBUTORS</span>
+     
+     
+    </v-btn>
+        <v-btn @click="move()" large flat>
+          <v-icon left >fa fa-user</v-icon>
+      <span >PROFILE</span>
+     
+     
+    </v-btn>
    
     </v-toolbar>
     
@@ -47,7 +57,7 @@
       </v-list>
     </v-toolbar>
 
-    <v-list class="pt-0" dense>
+    <!-- <v-list class="pt-0" dense>
       <v-divider></v-divider>
 
       <v-list-tile
@@ -63,7 +73,7 @@
           <v-list-tile-title>{{ item.title }}</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-    </v-list>
+    </v-list> -->
   </v-navigation-drawer>
 
   <v-flex app xs10 sm6 offset-sm3 offset-xs3>
@@ -77,27 +87,18 @@
       <br>
 
       <v-flex app >
-      <v-card
-        class="ma-auto"
-      >
-        <v-sheet class="pa-3 primary lighten-2">
-          <v-text-field
-            v-model="search"
-            label="Search Company Directory"
-            dark
-            flat
-            solo-inverted
-            hide-details
-            clearable
-            clear-i
-                
-          ></v-text-field>
-          
-        </v-sheet>
-        <v-card-text>
-          
-        </v-card-text>
-      </v-card>
+        <v-card  color="rgba(0,0,0,0.5)">
+      <v-text-field
+     
+        dark
+        v-model="searching"
+        class="mx-3"
+        flat
+        label="Search"
+        prepend-inner-icon="search"
+        solo-inverted
+      ></v-text-field>
+        </v-card>
       </v-flex>
 
       <br>
@@ -106,10 +107,12 @@
         <v-card-actions>
 
           <v-overflow-btn
+          v-model="dispq"
           :items="dropdown"
           label="All Questions"
           value="All Questions"
           target="#dropdown-example"
+          @click="dispques(dispq)"
         ></v-overflow-btn>
 
           <v-spacer></v-spacer>
@@ -190,7 +193,7 @@
 
           <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn flat @mouseup="dnes()" @mousedown="send()">
+          <v-btn flat @click="showq = !showq" @mouseup="dnes()" @mousedown="send()">
             Submit
             <v-icon right>send</v-icon>
           </v-btn>
@@ -202,7 +205,7 @@
 
       <br>
       <v-flex app >
-      <v-card v-for="item in post" v-if="item.data().data.downvote<=3">
+      <v-card v-for="item in filter" v-if="item.data().data.downvote<=3">
         <v-container
           fluid
         >
@@ -269,11 +272,51 @@
             Upvote
             <v-icon small right>thumb_up</v-icon>
           </v-btn>
+          <v-snackbar
+    
+      v-model="snackbar2"
+     color="red"
+      :multi-line="mode === 'multi-line'"
+      class="subheading"
+      :timeout="timeout"
+   
+      :vertical="mode === 'vertical'"
+      
+    >
+      {{ text2 }}
+      <v-btn
+        color="black"
+        
+        @click="snackbar2 = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
 
           <v-btn @click="downvote(item)" flat color="red">
             Downvote
             <v-icon small right>thumb_down</v-icon>
           </v-btn>
+          <v-snackbar
+    
+      v-model="snackbar3"
+     color="red"
+      :multi-line="mode === 'multi-line'"
+      class="subheading"
+      :timeout="timeout"
+   
+      :vertical="mode === 'vertical'"
+      
+    >
+      {{ text3 }}
+      <v-btn
+        color="black"
+        
+        @click="snackbar3 = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
 
           <v-spacer></v-spacer>
           <v-btn flat @mousedown="comment(item)" @mouseup="show = !show">
@@ -394,6 +437,7 @@
                       >
                       </v-text-field>
                       <v-btn @click="preply(com)" depressed small>POST</v-btn>
+                      
                     </v-flex>
 
                   </v-card>
@@ -414,6 +458,46 @@
                   >
                   </v-text-field>
                   <v-btn @click="pcomment(item)" depressed small>POST</v-btn>
+                   <v-snackbar
+    
+      v-model="snackbar1"
+     color="red"
+      :multi-line="mode === 'multi-line'"
+      class="subheading"
+      :timeout="timeout"
+   
+      :vertical="mode === 'vertical'"
+      
+    >
+      {{ text1}}
+      <v-btn
+        color="black"
+        
+        @click="snackbar1 = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
+                   <v-snackbar
+    
+      v-model="snackbar"
+     color="red"
+      :multi-line="mode === 'multi-line'"
+      class="subheading"
+      :timeout="timeout"
+   
+      :vertical="mode === 'vertical'"
+      
+    >
+      {{ text }}
+      <v-btn
+        color="black"
+        
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
                 </v-flex>
 
               </v-card>
@@ -478,6 +562,18 @@ import { constants } from 'crypto';
   export default {
     data () {
       return {
+         snackbar: false,
+         snackbar1:false,
+         snackbar2:false,
+         snackbar3:false,
+         text2:'Not authorized to do this action.',
+         text3:'Not authorized to do this action.',
+         text1:'You are not authorized to answer any question.',
+        y: 'top',
+        x: null,
+        mode: '',
+        timeout: 6000,
+        text: 'You are not authorized to answer this question.',
         loader: null,
         loading: false,
         loading2: false,
@@ -490,14 +586,18 @@ import { constants } from 'crypto';
         answer:"",
         rep:"",
         show: false,
+        searchdoc: [],
         replies: [],
         num:0,
         post: [],
         comms: [],
+        searching:'',
         select: [],
+        dispq: "",
         showr:false,
         showq:false,
         showc:true,
+        listener:null,
         str:"",
         itemscb: ["General"],
         dropdown: ['All Questions', 'Your Questions', 'Recommended'],
@@ -521,19 +621,20 @@ import { constants } from 'crypto';
       }
     },
     computed: {
-      filter () {
-        return this.caseSensitive
-          ? (item, search, textKey) => item[textKey].indexOf(search) > -1
-          : undefined
-      }
+       filter: function(){
+            return this.post.filter((item)=>{
+                return item.data().data.query.toLowerCase().match(this.searching.toLowerCase())
+            })
+        }
       
     },
-    mounted(){
+    created(){
       var vm=this,d,js;
       var user = firebase.auth().currentUser;
-      var docr=db.collection("posts");
-      docr.get().then(function(snapshot) {
+      var docr=db.collection("posts").where("count",">=",0);
+      vm.listener=docr.onSnapshot(function(snapshot) {
         vm.post=snapshot.docs;
+        console.log(vm.post);
       });
       var cll = db.collection("colleges");
         cll.get().then(function(snapshot) {
@@ -547,14 +648,25 @@ import { constants } from 'crypto';
           db.collection("users").doc(user.displayName).get().then(function(doc){
           vm.college=doc.data().college;
           console.log(vm.college);
+          document.getElementById("ques").style.display ="none";
         })
       };
-      var user = firebase.auth().currentUser;
-      var q,w;
-      if(user.emailVerified) 
-        document.getElementById("ques").style.display ="none";
+      
+    },
+    beforeDestroy(){
+      var vm=this;
+      vm.listener();
     },
     methods: {
+      move(){
+        this.$router.push("/profile")
+      },
+       movec(){
+        this.$router.push("/sprofile")
+      },
+      dispques(qtype){
+        console.log(qtype);
+      },
       preply(com){
         var user = firebase.auth().currentUser;
         var vm=this;
@@ -593,11 +705,13 @@ import { constants } from 'crypto';
             })
           }
           else{
-            alert("You are not authorized to answer this question.");
+            // alert("You are not authorized to answer this question.");
+            this.snackbar=true;
           }
         }
         else{
-          alert("You are not authorized to answer any question.");
+          // alert("You are not authorized to answer any question.");
+           this.snackbar1=true;
         };
       },
       reply(comment){
@@ -646,7 +760,8 @@ import { constants } from 'crypto';
           })
         }
         else{
-          alert("Not authorized to do this action.");
+          // alert("Not authorized to do this action.");
+          this.snackbar2=true;
         }
 
         // this.$forceUpdate();        
@@ -666,7 +781,8 @@ import { constants } from 'crypto';
           })
         }
         else{
-          alert("Not authorized to do this action.");
+          // alert("Not authorized to do this action.");
+          this.snackbar3=true;
         }        
       },
       f(){
@@ -683,9 +799,9 @@ import { constants } from 'crypto';
             vm.str=JSON.stringify(vm.model);
             console.log(vm.str);
         db.collection("posts").add({
+          count: 0,
           data: {
             author: user.displayName,
-            count: 0,
             downvote: 0,
             disp: false,
             upvote: 0,
