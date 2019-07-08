@@ -1,116 +1,11 @@
 <template>
-<v-app style = "background: rgb(0,0,0,0)">
-    <v-toolbar  app color="rgb(0,0,0,0.7)" dark >
- <v-toolbar-title class="headline text-uppercase" dark>
-     <v-layout row wrap>
-    
-        <v-flex pt-2 mt-1>
-        <span class=" grey--text">get </span>
-        <span class="font-weight-light white--text">college</span>
-        </v-flex>
-     </v-layout>
-      </v-toolbar-title>
-      
-   <v-spacer></v-spacer>
-   <v-btn @click="movec()" large flat>
-          <v-icon left >fa fa-users</v-icon>
-      <span >CONTRIBUTORS</span>
-     
-     
-    </v-btn>
-        <v-btn @click="move()" large flat>
-          <v-icon left >fa fa-user</v-icon>
-      <span >PROFILE</span>
-     
-     
-    </v-btn>
-   
-    </v-toolbar>
-    
-    <v-navigation-drawer
-    v-model="drawer"
-    app dark
-    :mini-variant.sync="mini"
-    hide-overlay
-    stateless
-  >
-    <v-toolbar flat class="transparent">
-      <v-list class="pa-0">
-        <v-list-tile avatar>
-          <v-list-tile-avatar>
-            <img src="https://randomuser.me/api/portraits/men/85.jpg">
-          </v-list-tile-avatar>
-
-          <v-list-tile-content>
-            <v-list-tile-title>John Leider</v-list-tile-title>
-          </v-list-tile-content>
-
-          <v-list-tile-action>
-            <v-btn
-              icon
-              @click.stop="mini = !mini"
-            >
-              <v-icon>chevron_left</v-icon>
-            </v-btn>
-          </v-list-tile-action>
-        </v-list-tile>
-      </v-list>
-    </v-toolbar>
-  </v-navigation-drawer>
-
-  <v-flex app xs10 sm6 offset-sm3 offset-xs3>
-  <v-card flat >
-      <v-container
-        fluid
-        grid-list-lg
-      >
-      <br>
-      <br>
-      <br>
-
-      <v-flex app >
-        <v-card  color="rgba(0,0,0,0.5)">
-      <v-text-field
-     
-        dark
-        v-model="searching"
-        class="mx-3 pt-3"
-        flat
-        label="Search"
-        prepend-inner-icon="search"
-        solo-inverted
-      ></v-text-field>
-        </v-card>
-      </v-flex>
-
-      <br>
-      <v-flex app >
-
-        <v-card-actions>
-
-          <v-overflow-btn
-          v-model="dispq"
-          :items="dropdown"
-          label="All Questions"
-          value="All Questions"
-          target="#dropdown-example"
-          @click="dispques(dispq)"
-        ></v-overflow-btn>
-
-          <v-spacer></v-spacer>
-          <v-btn flat id="ques" @mousedown="f()" @click="showq = !showq" v-show="showc">
-            Add Question
-            <v-icon right>add</v-icon>
-          </v-btn>
-        </v-card-actions>
-
-
-      <v-card v-show="showq">
-        <v-container
+<v-flex pa-3>
+    <v-card>
+    <v-container
           fluid
         >
           <v-layout row wrap>
-            <v-flex sm10>
+            <v-flex sm10 >
               <v-card flat>
               <v-card-actions>
                 
@@ -118,146 +13,197 @@
                   <v-list-tile-avatar color="grey darken-3">
                     <v-img
                       class="elevation-6"
-                      src="https://randomuser.me/api/portraits/men/66.jpg"
+                      src="https://randomuser.me/api/portraits/men/84.jpg"
                     ></v-img>
                   </v-list-tile-avatar>
 
                   <v-list-tile-content>
                     <v-list-tile-title>
-                      <div class="headline" id="name">
+                      <div  class="headline">{{item.data().data.author}}
                       </div>
+                      
+                      
                     </v-list-tile-title>
                   </v-list-tile-content>
 
+                  
                 </v-list-tile>
               </v-card-actions>
               </v-card>
               
             </v-flex>
+
+            <v-flex sm2 fill-height>
+
+              <v-card flat>
+                <v-btn flat block color="green"><v-icon x-large>keyboard_arrow_up</v-icon>{{item.data().data.upvote}}</v-btn>
+                <v-btn flat block color="red"><v-icon x-large>keyboard_arrow_down</v-icon>{{item.data().data.downvote}}</v-btn>
+              </v-card>
+
+            </v-flex>
           </v-layout>
         </v-container>
         <v-flex px-3>
-           <v-textarea
-            label="Ask a question..."
-            solo
-            auto-grow
-            flat
-            background-color="grey lighten-4"
-            clearable
-            id="query"
-          >
-          </v-textarea>
-          
+        <v-card-title primary-title>
+          <div>
+            <div class="display-1">{{item.data().data.query}}</div>
+          </div>
+        </v-card-title>
         </v-flex>
         <br>
         <v-flex xs12 px-3>
           <v-combobox
-            v-model="model"
-            :items="itemscb"
-            :search-input.sync="search"
-            hide-selected
-            hint="Maximum of 5 tags"
-            label="Add some tags"
+            v-model="item.data().data.tags"
+            label="Tagged"
+            chips
             multiple
-            persistent-hint
-            small-chips
-          >
-            <template v-slot:no-data>
-              <v-list-tile>
-                <v-list-tile-content>
-                  <v-list-tile-title>
-                    No results matching "<strong>{{ search }}</strong>". Press <kbd>enter</kbd> to create a new one
-                  </v-list-tile-title>
-                </v-list-tile-content>
-              </v-list-tile>
-            </template>
-          </v-combobox>
+            readonly
+          ></v-combobox>
+        </v-flex>
 
-          <v-card-actions>
+        <v-card-actions>
+
+           <v-btn :disabled="dispup" @click="upvote(item)" flat color="green">
+            Upvote
+            <v-icon small right>thumb_up</v-icon>
+          </v-btn>
+          <v-snackbar
+    
+      v-model="snackbar2"
+     color="red"
+      :multi-line="mode === 'multi-line'"
+      class="subheading"
+      :timeout="timeout"
+   
+      :vertical="mode === 'vertical'"
+      
+    >
+      {{ text2 }}
+      <v-btn
+        color="black"
+        
+        @click="snackbar2 = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
+
+          <v-btn @click="downvote(item)" flat color="red">
+            Downvote
+            <v-icon small right>thumb_down</v-icon>
+          </v-btn>
+          <v-snackbar
+    
+      v-model="snackbar3"
+     color="red"
+      :multi-line="mode === 'multi-line'"
+      class="subheading"
+      :timeout="timeout"
+   
+      :vertical="mode === 'vertical'"
+      
+    >
+      {{ text3 }}
+      <v-btn
+        color="black"
+        
+        @click="snackbar3 = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
+
           <v-spacer></v-spacer>
-          <v-btn flat @click="showq = !showq" @mouseup="dnes()" @mousedown="send()">
-            Submit
-            <v-icon right>send</v-icon>
+          <v-btn flat @mousedown="comment(item)" @mouseup="show = !show">
+            Comments
+            <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
           </v-btn>
         </v-card-actions>
 
-        </v-flex>
+        <v-slide-y-transition>
+          <v-card-text v-show="show">
+            <hr>
+            <br>
+            <comm
+            v-for="(com,index) in comms"
+            v-bind:key=com.id
+            v-bind:com='com'
+            v-bind:index='index'
+            v-if="com.data().downvote<=3">
+
+            </comm>
+            <br>
+            <v-card color="grey lighten-3" v-show="show">
+                <v-flex px-3 pt-4>
+                  <v-text-field
+                    v-model="answer"
+                    label="Write an answer..."
+                    solo
+                    background-color="grey lighten-4"
+                    clearable
+                  >
+                  </v-text-field>
+                  <v-btn @click="pcomment(item)" depressed small>POST</v-btn>
+                   <v-snackbar
+    
+                        v-model="snackbar1"
+                        color="red"
+                        :multi-line="mode === 'multi-line'"
+                        class="subheading"
+                        :timeout="timeout"
+                    
+                        :vertical="mode === 'vertical'"
+                        
+                        >
+                        {{ text1}}
+                        <v-btn
+                            color="black"
+                            
+                            @click="snackbar1 = false"
+                        >
+                            Close
+                        </v-btn>
+                        </v-snackbar>
+                                    <v-snackbar
+                        
+                        v-model="snackbar"
+                        color="red"
+                        :multi-line="mode === 'multi-line'"
+                        class="subheading"
+                        :timeout="timeout"
+                    
+                        :vertical="mode === 'vertical'"
+                        
+                        >
+                        {{ text }}
+                        <v-btn
+                            color="black"
+                            
+                            @click="snackbar = false"
+                        >
+                            Close
+                        </v-btn>
+                     </v-snackbar>
+                </v-flex>
+
+              </v-card>
+
+          </v-card-text>
+        </v-slide-y-transition>
       </v-card>
-      </v-flex>
-
-      <br>
-      <v-flex app >
-        <post 
-        v-for="item in filter"
-        v-bind:key="item.id"
-        v-bind:item='item'
-        :college="college"
-        v-if="item.data().data.downvote<=3"
-        >
-
-        </post>
-        
-      </v-flex>
-
-      </v-container>
-  </v-card>
-  
-  </v-flex>
-
-  </v-app>
+</v-flex>
 </template>
 
-
-<style>
-  .custom-loader {
-    animation: loader 1s infinite;
-    display: flex;
-  }
-  @-moz-keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  @-webkit-keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  @-o-keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-  @keyframes loader {
-    from {
-      transform: rotate(0);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-</style>
-
 <script>
-import { constants } from 'crypto';
-import post from './post.vue';
-  
-  export default {
+import comm from './comm.vue';
+
+export default {
     components:{
-      post
+        comm
     },
-    data () {
-      return {
-         snackbar: false,
+    data:function(){
+            return {
+                snackbar: false,
          snackbar1:false,
          snackbar2:false,
          snackbar3:false,
@@ -274,10 +220,10 @@ import post from './post.vue';
         loading2: false,
         loading3: false,
         loading4: false,
+        dispup: false,
         drawer: true,
         mini: true,
         right: null,
-        college: "",
         answer:"",
         rep:"",
         show: false,
@@ -300,58 +246,13 @@ import post from './post.vue';
       open: [1, 2],
       search: null,
       caseSensitive: false
-      }
-    },
-    watch: {
-      loader () {
-        const l = this.loader
-        this[l] = !this[l]
-        setTimeout(() => (this[l] = false), 3000)
-        this.loader = null
-      },
-      model (val) {
-        if (val.length > 5) {
-          this.$nextTick(() => this.model.pop())
-        }
-      }
-    },
-    computed: {
-       filter: function(){
-            return this.post.filter((item)=>{
-                return item.data().data.query.toLowerCase().match(this.searching.toLowerCase())
-            })
-        }
-      
-    },
-    mounted(){
-      var vm=this,d,js;
-      var user = firebase.auth().currentUser;
-      var docr=db.collection("posts").where("count",">=",0);
-      vm.listener=docr.onSnapshot(function(snapshot) {
-        vm.post=snapshot.docs;
-        console.log(vm.post);
-      });
-      var cll = db.collection("colleges");
-        cll.get().then(function(snapshot) {
-          snapshot.docs.forEach(doc => {
-            if(doc.id!="src"&& doc.id!="ID")
-            vm.itemscb.push(doc.id);
-          });
-        });
-        console.log(this.itemscb);
-      if(user.emailVerified){
-          db.collection("users").doc(user.displayName).get().then(function(doc){
-          vm.college=doc.data().college;
-          console.log(vm.college);
-          document.getElementById("ques").style.display ="none";
-        })
-      };
-      
-    },
-    beforeDestroy(){
-      var vm=this;
-      vm.listener();
-    },
+            }
+        },
+    
+    props: ['item','college'],
+    
+
+
     methods: {
       move(){
         this.$router.push("/profile")
@@ -379,7 +280,7 @@ import post from './post.vue';
       pcomment(iden){
         var user = firebase.auth().currentUser;
         var vm=this;
-        //console.log(iden.data().tags);
+        console.log(vm.college);
         if(user.emailVerified){
           if(iden.data().data.tags.indexOf(vm.college)>=0){
             var en=iden.id+iden.data().count;
@@ -441,6 +342,7 @@ import post from './post.vue';
         })   
       },
       upvote(doc){
+          this.dispup=true;
         var user=firebase.auth().currentUser;
         if(user.emailVerified){
           console.log(doc.id);
@@ -516,6 +418,5 @@ import post from './post.vue';
         this.$router.push("/forum");
       }
     }
-    
-  }
+}
 </script>
