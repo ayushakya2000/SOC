@@ -192,7 +192,7 @@
         v-bind:key="item.id"
         v-bind:item='item'
         :college="college"
-        v-if="item.data().data.downvote<=3"
+        v-if="item.data().data.downvote.length<=3"
         >
 
         </post>
@@ -497,9 +497,9 @@ import post from './post.vue';
           count: 0,
           data: {
             author: user.displayName,
-            downvote: 0,
+            downvote: [],
             disp: false,
-            upvote: 0,
+            upvote: [],
             query: document.getElementById("query").value,
             tags: vm.model
           }

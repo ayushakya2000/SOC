@@ -36,8 +36,8 @@
             <v-flex sm2 fill-height>
 
               <v-card flat>
-                <v-btn flat block color="green"><v-icon x-large>keyboard_arrow_up</v-icon>{{item.data().data.upvote}}</v-btn>
-                <v-btn flat block color="red"><v-icon x-large>keyboard_arrow_down</v-icon>{{item.data().data.downvote}}</v-btn>
+                <v-btn flat block color="green"><v-icon x-large>keyboard_arrow_up</v-icon>{{item.data().data.upvote.length}}</v-btn>
+                <v-btn flat block color="red"><v-icon x-large>keyboard_arrow_down</v-icon>{{item.data().data.downvote.length}}</v-btn>
               </v-card>
 
             </v-flex>
@@ -88,7 +88,7 @@
       </v-btn>
     </v-snackbar>
 
-          <v-btn @click="downvote(item)" flat color="red">
+          <v-btn :disabled="dispdo" @click="downvote(item)" flat color="red">
             Downvote
             <v-icon small right>thumb_down</v-icon>
           </v-btn>
@@ -129,7 +129,7 @@
             v-bind:key=com.id
             v-bind:com='com'
             v-bind:index='index'
-            v-if="com.data().downvote<=3">
+            v-if="com.data().downvote.length<=4">
 
             </comm>
             <br>
@@ -221,6 +221,7 @@ export default {
         loading3: false,
         loading4: false,
         dispup: false,
+        dispdo: false,
         drawer: true,
         mini: true,
         right: null,
@@ -233,6 +234,7 @@ export default {
         post: [],
         comms: [],
         searching:'',
+        listener2:null,
         select: [],
         dispq: "",
         showr:false,
@@ -250,8 +252,9 @@ export default {
         },
     
     props: ['item','college'],
-    
-
+    beforeDestroy(){
+        this.listener2();
+    },
 
     methods: {
       move(){
@@ -290,8 +293,8 @@ export default {
               author: user.displayName,
               cmt: vm.answer,
               id: iden.id,
-              upvote: 0,
-              downvote: 0,
+              upvote: [user.displayName],
+              downvote: [user.displayName],
               count: 0,
               replies: []
             }).then(() =>{
@@ -318,7 +321,7 @@ export default {
         console.log(iden.id);
         var vm=this;
         var dr=db.collection("comments").where("id","==",iden.id);
-        dr.get().then(function(snapshot) {
+        vm.listener2=dr.onSnapshot(function(snapshot) {
           vm.comms=snapshot.docs;
           console.log(vm.comms);
         })
@@ -342,19 +345,24 @@ export default {
         })   
       },
       upvote(doc){
-          this.dispup=true;
+          this.dispup=true; var a=[];
         var user=firebase.auth().currentUser;
         if(user.emailVerified){
           console.log(doc.id);
-          var count=doc.data().data.upvote+1;
-          console.log(count);
-          var ref = db.collection("posts").doc(doc.id);
-          return ref.update({
-              "data.upvote": count
-          })
-          .then(function() {
-              console.log("Document successfully updated!");
-          })
+          //var count=doc.data().data.upvote.length+1;
+          a=doc.data().data.upvote;
+          if(a.indexOf(user.displayName)==-1){
+            a.push(user.displayName);        
+            console.log(a);
+            var ref = db.collection("posts").doc(doc.id);
+            return ref.update({
+                "data.upvote": a
+            })
+            .then(function() {
+                console.log("Document successfully updated!");
+            })
+          }
+          else{alert("Already upvoted once.")}
         }
         else{
           // alert("Not authorized to do this action.");
@@ -364,23 +372,31 @@ export default {
         // this.$forceUpdate();        
       },
       downvote(doc){
+          this.dispdo=true; var a=[];
         var user=firebase.auth().currentUser;
         if(user.emailVerified){
           console.log(doc.id);
-          var count=doc.data().data.downvote+1;
-          console.log(count);
-          var ref = db.collection("posts").doc(doc.id);
-          return ref.update({
-              "data.downvote": count
-          })
-          .then(function() {
-              console.log("Document successfully updated!");
-          })
+          //var count=doc.data().data.upvote.length+1;
+          a=doc.data().data.downvote;
+          if(a.indexOf(user.displayName)==-1){
+            a.push(user.displayName);        
+            console.log(a);
+            var ref = db.collection("posts").doc(doc.id);
+            return ref.update({
+                "data.downvote": a
+            })
+            .then(function() {
+                console.log("Document successfully updated!");
+            })
+          }
+          else{alert("Already downvoted once.")}
         }
         else{
           // alert("Not authorized to do this action.");
-          this.snackbar3=true;
-        }        
+          this.snackbar2=true;
+        }
+
+        // this.$forceUpdate();        
       },
       f(){
         var user = firebase.auth().currentUser;
@@ -399,9 +415,9 @@ export default {
           count: 0,
           data: {
             author: user.displayName,
-            downvote: 0,
+            downvote: [],
             disp: false,
-            upvote: 0,
+            upvote: [],
             query: document.getElementById("query").value,
             tags: vm.model
           }
