@@ -13,7 +13,7 @@
                   <v-list-tile-avatar color="grey darken-3">
                     <v-img
                       class="elevation-6"
-                      src="https://randomuser.me/api/portraits/men/84.jpg"
+                      :src=emage
                     ></v-img>
                   </v-list-tile-avatar>
 
@@ -222,6 +222,7 @@ export default {
         loading4: false,
         dispup: false,
         dispdo: false,
+        emage:"",
         drawer: true,
         mini: true,
         right: null,
@@ -255,7 +256,14 @@ export default {
     beforeDestroy(){
         this.listener2();
     },
-
+    mounted(){
+      var vm=this;
+      var u=vm.item.data().data.author;
+      db.collection("users").doc(u).get().then(function(doc){
+          //vm.college=doc.data().college;
+          vm.emage=doc.data().pfp;
+      })
+    },
     methods: {
       move(){
         this.$router.push("/profile")
@@ -285,7 +293,7 @@ export default {
         var vm=this;
         console.log(vm.college);
         if(user.emailVerified){
-          if(iden.data().data.tags.indexOf(vm.college)>=0){
+          if(iden.data().data.tags.indexOf(vm.college)>=0||iden.data().data.tags.indexOf("General")>=0){
             var en=iden.id+iden.data().count;
             var c=iden.data().count+1;
             console.log(en,c);

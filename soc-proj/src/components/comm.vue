@@ -12,7 +12,7 @@
                         <v-list-tile-avatar color="grey darken-3">
                           <v-img
                             class="elevation-6"
-                            src="https://randomuser.me/api/portraits/men/72.jpg"
+                            :src=emage
                           ></v-img>
                         </v-list-tile-avatar>
 
@@ -53,11 +53,51 @@
                   Upvote
                   <v-icon small right>thumb_up</v-icon>
                 </v-btn>
+                <v-snackbar
+    
+                        v-model="snackbaru"
+                        color="red"
+                        :multi-line="mode === 'multi-line'"
+                        class="subheading"
+                        :timeout="timeout"
+                    
+                        :vertical="mode === 'vertical'"
+                        
+                        >
+                        {{ textu}}
+                        <v-btn
+                            color="black"
+                            
+                            @click="snackbaru = false"
+                        >
+                            Close
+                        </v-btn>
+                        </v-snackbar>
 
                 <v-btn :disabled="dispcdo" @click="down(com,index)" flat color="red">
                   Downvote
                   <v-icon small right>thumb_down</v-icon>
                 </v-btn>
+                <v-snackbar
+    
+                        v-model="snackbard"
+                        color="red"
+                        :multi-line="mode === 'multi-line'"
+                        class="subheading"
+                        :timeout="timeout"
+                    
+                        :vertical="mode === 'vertical'"
+                        
+                        >
+                        {{ textd}}
+                        <v-btn
+                            color="black"
+                            
+                            @click="snackbard = false"
+                        >
+                            Close
+                        </v-btn>
+                        </v-snackbar>
 
                 <v-spacer></v-spacer>
                 <v-btn flat @mouseup="reply(com)" @click="showr = !showr">
@@ -77,7 +117,7 @@
                           <v-img
                             class="elevation-6"
                             size="50%"
-                            src="https://randomuser.me/api/portraits/men/64.jpg"
+                            :src=mage
                           ></v-img>
                         </v-list-tile-avatar>
 
@@ -125,6 +165,10 @@ export default {
          snackbar1:false,
          snackbar2:false,
          snackbar3:false,
+         snackbaru:false,
+         snackbard:false,
+         textu:'Already upvoted once.',
+         textd:'Already downvoted once.',
          text2:'Not authorized to do this action.',
          text3:'Not authorized to do this action.',
          text1:'You are not authorized to answer any question.',
@@ -140,6 +184,8 @@ export default {
         loading4: false,
         drawer: true,
         mini: true,
+        emage:"",
+        mage:"",
         right: null,
         college: "",
         answer:"",
@@ -170,7 +216,14 @@ export default {
     }
     ,
     props: ['com','index'],
-
+    mounted(){
+      var vm=this;
+      var u=vm.com.data().author;
+      db.collection("users").doc(u).get().then(function(doc){
+          //vm.college=doc.data().college;
+          vm.emage=doc.data().pfp;
+      })
+    },
 
 
     methods: {
@@ -184,6 +237,7 @@ export default {
         console.log(qtype);
       },
       preply(com){
+        this.showr=false;
         var user = firebase.auth().currentUser;
         var vm=this;
         var arr=com.data().replies;
@@ -211,34 +265,58 @@ export default {
         })
       },
       up(com,ind){
-        console.log(ind);
-        console.log(com.data());
-        this.dispcup=true; var a=[];
         var user=firebase.auth().currentUser;
+        var rat=db.collection("users").doc(com.data().author);
+        var cat=0;
+        this.dispcup=true; var a=[];
         a=com.data().upvote;
         if(a.indexOf(user.displayName)==-1){
+          rat.get().then(function(doc){
+          cat=doc.data().rating;
+          console.log(typeof(cat));
+          cat=cat+20;
+          console.log(cat);
+          rat.update({
+              rating:cat
+          })
             a.push(user.displayName);
             console.log(a);
             db.collection("comments").doc(com.id).update({
             "upvote": a
             })
+          })
         }
-        else{alert("Already upvoted once.")}
+        else{
+          // alert("Already upvoted once.")
+          this.snackbaru=true;
+          }
       },
       down(com,ind){
-        console.log(ind);
-        console.log(com.data());
-        this.dispcdo=true; var a=[];
         var user=firebase.auth().currentUser;
+        var rat=db.collection("users").doc(com.data().author);
+        var cat=0;
+        this.dispcdo=true; var a=[];
         a=com.data().downvote;
         if(a.indexOf(user.displayName)==-1){
+          rat.get().then(function(doc){
+          cat=doc.data().rating;
+          console.log(typeof(cat));
+          cat=cat-25;
+          console.log(cat);
+          rat.update({
+              rating:cat
+          })
             a.push(user.displayName);
             console.log(a);
             db.collection("comments").doc(com.id).update({
             "downvote": a
             })
+          })
         }
-        else{alert("Already downvoted once.")}
+        else{
+          // alert("Already upvoted once.")
+          this.snackbard=true;
+          }
       },
       upvote(doc){
           this.dispup=true; var a=[];

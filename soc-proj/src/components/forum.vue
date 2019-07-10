@@ -87,15 +87,18 @@
       <v-flex app >
 
         <v-card-actions>
+<v-btn @click="dispques(0)" flat>All Questions</v-btn>
+<v-btn v-if="sid" @click="dispques(2)" flat>Your Questions</v-btn>
+<v-btn v-if="rec" @click="dispques(1)" flat>Recommended</v-btn>
 
-          <v-overflow-btn
-          v-model="dispq"
+          <!-- <v-overflow-btn
           :items="dropdown"
           label="All Questions"
+          v-model="dispq"
           value="All Questions"
           target="#dropdown-example"
           @click="dispques(dispq)"
-        ></v-overflow-btn>
+        ></v-overflow-btn> -->
 
           <v-spacer></v-spacer>
           <v-btn flat id="ques" @mousedown="f()" @click="showq = !showq" v-show="showc">
@@ -118,7 +121,7 @@
                   <v-list-tile-avatar color="grey darken-3">
                     <v-img
                       class="elevation-6"
-                      src="https://randomuser.me/api/portraits/men/66.jpg"
+                      :src=mage
                     ></v-img>
                   </v-list-tile-avatar>
 
@@ -277,8 +280,11 @@ import post from './post.vue';
         drawer: true,
         mini: true,
         right: null,
+        mage:"",
         college: "",
         answer:"",
+        sid:true,
+        rec:false,
         rep:"",
         show: false,
         searchdoc: [],
@@ -326,7 +332,7 @@ import post from './post.vue';
     mounted(){
       var vm=this,d,js;
       var user = firebase.auth().currentUser;
-      var docr=db.collection("posts").where("count",">=",0);
+      var docr=db.collection("posts").where("count",">=",0).orderBy("count","desc");
       vm.listener=docr.onSnapshot(function(snapshot) {
         vm.post=snapshot.docs;
         console.log(vm.post);
@@ -340,13 +346,20 @@ import post from './post.vue';
         });
         console.log(this.itemscb);
       if(user.emailVerified){
+          vm.sid=false;
+          vm.rec=true;
           db.collection("users").doc(user.displayName).get().then(function(doc){
           vm.college=doc.data().college;
+          //vm.mage=doc.data().pfp;
           console.log(vm.college);
           document.getElementById("ques").style.display ="none";
         })
-      };
-      
+      }
+      else{
+        db.collection("users").doc(user.displayName).get().then(function(doc){
+          vm.mage=doc.data().pfp;
+        })
+      }
     },
     beforeDestroy(){
       var vm=this;
@@ -359,8 +372,32 @@ import post from './post.vue';
        movec(){
         this.$router.push("/sprofile")
       },
-      dispques(qtype){
-        console.log(qtype);
+      dispques(q){
+        var vm=this;
+        var user=firebase.auth().currentUser;
+        vm.listener();
+        if(q==0){
+        var docr=db.collection("posts").where("count",">=",0).orderBy("count","desc");
+        vm.listener=docr.onSnapshot(function(snapshot) {
+        vm.post=snapshot.docs;
+        console.log(vm.post);
+      });
+        }
+        if(q==1){
+          console.log(vm.college);
+        var docr=db.collection("posts").where("count",">=",0).where("data.tags","array-contains",vm.college).orderBy("count","desc");
+        vm.listener=docr.onSnapshot(function(snapshot) {
+        vm.post=snapshot.docs;
+        console.log(vm.post);
+      });
+        }
+        if(q==2){
+          var docr=db.collection("posts").where("count",">=",0).where("data.author","==",user.displayName).orderBy("count","desc");
+        vm.listener=docr.onSnapshot(function(snapshot) {
+        vm.post=snapshot.docs;
+        console.log(vm.post);
+        });
+        }
       },
       preply(com){
         var user = firebase.auth().currentUser;

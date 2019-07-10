@@ -227,7 +227,7 @@
         str="Aspirant";
         docr.update({
         role: str,
-        rating: "0"
+        rating: 0
       })
       }
       vm.listener=docr.onSnapshot(function(doc){

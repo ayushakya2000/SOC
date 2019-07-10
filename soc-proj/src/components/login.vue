@@ -309,6 +309,7 @@ console.log(data+"KJ");
             console.log(email, pass);
             db.collection("users").doc(user.displayName).set({
               mailid: email,
+              rating: 0,
               college: ra,
               age:"18",
               branch:"N/A",
