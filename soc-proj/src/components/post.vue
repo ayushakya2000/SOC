@@ -320,6 +320,7 @@ export default {
           // alert("You are not authorized to answer any question.");
            this.snackbar1=true;
         };
+        vm.answer="";
       },
       reply(comment){
         console.log(comment);

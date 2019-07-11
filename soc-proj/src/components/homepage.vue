@@ -36,7 +36,7 @@
      <v-icon right large>perm_identity</v-icon>
      
     </v-btn>
-    <v-dialog>
+    <v-dialog max-width="600">
        
      <v-btn id="lol" large flat slot="activator" >
       <span >LOGIN</span>
@@ -44,8 +44,8 @@
      
     </v-btn>
      <v-layout align-center justify-center>
-    <v-flex xs12 sm6 md5 lg4>
-      <v-card color="rgb(0,0,0,0.85)">
+    <v-flex xs12 >
+      <v-card color="rgb(0,0,0,0.85)" width="600">
         <br>
         <v-card-title>
           <v-layout row wrap align-center justify-center>

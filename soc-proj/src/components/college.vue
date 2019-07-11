@@ -26,17 +26,22 @@
   <v-flex xs12 class="mt-5">
   <v-parallax src="https://wallpapercave.com/wp/wp2140467.jpg"
   height="900"
-  >
-  <v-container class="ma-5" >
-  <blockquote class="blockquote display-3 borderr2 my-5" id="name1">COLLEGES</blockquote>
+  > 
+  <v-container class="my-5 ml-5 py-5" >
+  <p class="blockquote display-3 borderr2 " id="name1">COLLEGES</p>
   </v-container>
   
   </v-parallax>
   </v-flex>
+
+
+
+
   <v-layout>
 <v-flex xs12>
    <v-img
-src="http://realpinkaz.com/wp-content/uploads/web-design-background-montreal-web-design-montreal-web-design-web-web-design-background.jpg">
+src="http://realpinkaz.com/wp-content/uploads/web-design-background-montreal-web-design-montreal-web-design-web-web-design-background.jpg"
+gradient="to left bottom, #000000, #9E9E9E">
   <center>
 <v-flex lg6  class="mx-5">
   <div class="ma-5">

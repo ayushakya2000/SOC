@@ -1,6 +1,6 @@
 <template>
 <v-app class="grey lighten-3 mt-5 pt-3">
-  <v-img src="https://images.pexels.com/photos/207142/pexels-photo-207142.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+  <v-img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBWTX-W_by-2CUlywHfAfOFUjodwQwLytkL4V4XACeKg8pLawwog"
      gradient="to left top, #FFCCBC, #B2EBF2">
     <v-toolbar  app color="rgb(0,0,0,0.7)" dark >
  <v-toolbar-title class="headline text-uppercase" dark>

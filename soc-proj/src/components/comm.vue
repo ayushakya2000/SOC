@@ -113,13 +113,7 @@
                   <v-card v-for="reply in replies" flat color="grey lighten-4">
                     <v-card-actions>
                       <v-list-tile class="grow">
-                        <v-list-tile-avatar color="grey darken-3">
-                          <v-img
-                            class="elevation-6"
-                            size="50%"
-                            :src=mage
-                          ></v-img>
-                        </v-list-tile-avatar>
+                        
 
                         <v-list-tile-content>
                           <v-list-tile-title><span>{{reply.author}}</span></v-list-tile-title>
@@ -250,6 +244,7 @@ export default {
         var setWithMerge = db.collection("comments").doc(com.id).set({
                  replies:arr
             }, { merge: true });
+        vm.rep="";
       },
       reply(comment){
         console.log(comment);

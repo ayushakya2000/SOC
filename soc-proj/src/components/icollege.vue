@@ -21,8 +21,26 @@
     </v-toolbar>
     <div > 
 <v-img src="https://images.pexels.com/photos/590493/pexels-photo-590493.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940" height="1500">
+<div v-show="showl">
+  <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<v-layout justify-center class="mt-5 pt-5" >
   
-  <v-layout row wrap class="mt-5" justify-space-between>
+                              
+                               <center>
+                        
+                               <v-progress-circular
+                               class="ma-5 pa-5"
+                               :size=50
+                               v-show="showp"
+                               color="amber"
+                               indeterminate>
+                               </v-progress-circular>
+                               </center>
+                              
+                             
+ </v-layout>
+</div>
+  <v-layout row wrap class="mt-5" justify-space-between v-show="showc">
     <v-flex xs 12>
  <div class="text-xs-center ma-5">
     
@@ -45,7 +63,7 @@
   
     </v-flex>
   </v-layout>
-  <v-layout class="mt-5 pt-5" justify-center>
+  <v-layout class="mt-5 pt-5" justify-center v-show="showc">
     <v-flex xs12 sm6>
       <v-hover>
      
@@ -996,10 +1014,14 @@
 export default {
     props:['identity'], 
   data() {
-     return { }
+     return {
+       showl:true,
+       showp:true,
+       showc:false,
+      }
     },
     created(){
-        
+        var vm=this;
         var poo; var g=[];var i,j=1;
         db.collection("colleges").doc("src").get().then(function(doc){
           document.getElementById("img").setAttribute("src", doc.data().src) ;
@@ -1063,6 +1085,8 @@ export default {
                     }
                 }
                 var k;
+                vm.showc=true;
+                vm.showl=false;
           var branch=doc.data().Branches;
             for(var i=0;i<=9;i++){
               if(branch[i]) 
@@ -1070,6 +1094,7 @@ export default {
                else
                 document.getElementById("b"+i).style.display = "none";
             }
+
                 var b=doc.data().b0;
                 for(i=0;i<=9;i++){
 switch (i) {

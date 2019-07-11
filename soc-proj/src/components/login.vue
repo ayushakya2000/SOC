@@ -63,9 +63,9 @@
 
                   <v-flex sm12>
                     <v-layout row wrap justify-space-around>
-                      <v-btn id="con" @click="con()" block color="primary" class="mx-2">CONTRIBUTOR</v-btn>
+                      <v-btn :disabled="dispc" flat id="con" @click="con()" block color="orange" class="mx-2 subheading">CONTRIBUTOR</v-btn>
                       <v-divider vertical color="white"></v-divider>
-                      <v-btn id="asp" @click="asp()" block color="primary" class="mx-2">ASPIRANT</v-btn><br>
+                      <v-btn :disabled="dispa" flat id="asp" @click="asp()" block color="orange" class="mx-2 subheading">ASPIRANT</v-btn><br>
                     </v-layout>
                   </v-flex>
                   
@@ -114,6 +114,7 @@
 
                   <v-flex id="hid" v-show="hid" sm8>
                     <v-text-field
+                    color="white"
                       box
                       dark
                       @click="fuc()"
@@ -148,8 +149,22 @@
                           <v-btn  id="hidden" dark color="red" @click="fnnn()" slot="activator">
                             <span>submit</span>
                           </v-btn>
-
-                           <v-card>
+ <v-layout justify-center v-show="showl">
+                               
+                               <center>
+                                 
+                               <v-progress-circular
+                               class="ma-5 pa-5"
+                               :size=50
+                               v-show="showp"
+                               color="amber"
+                               indeterminate>
+                               </v-progress-circular>
+                               </center>
+                              
+                             
+ </v-layout>
+                           <v-card v-show="showc">
                              
                              <br><br>
    <v-progress-linear :indeterminate="true" color="green"></v-progress-linear>
@@ -213,7 +228,7 @@
         Close
       </v-btn>
     </v-snackbar>
-     <v-btn  flat class="my-3" color="red" to="/login" @mousedown="f1()" ><span>Aspirant-click here</span></v-btn>
+     <v-btn  flat class="my-3" color="red" to="/login" @mousedown="f11()" @mouseup="f1()" ><span>Aspirant-click here</span></v-btn>
      <v-snackbar
     
       v-model="snackbar2"
@@ -271,16 +286,7 @@
                             </v-card-actions>
                           </v-card> -->
                         </v-dialog>
-                        <!-- <v-layout v-show="showl" justify-center>
-                               <v-card>
-                               <v-progress-circular
-                               :size=50
-                               v-show="showp"
-                               color="amber"
-                               indeterminate>
-                               </v-progress-circular>
-                               </v-card>
-                             </v-layout> -->
+                       
                       </v-layout>
                     </v-card-actions>
                   </v-flex>
@@ -338,13 +344,14 @@
 export default {
   data() {
     return {
-      showl:'false',
-      showp:'true',
+      showl:false,
+      showp:true,
       college:'',
        snackbar: false,
        snackbar1: false,
        snackbar2: false,
        snackbar3: false,
+       showc:false,
         y: 'top',
         x: null,
         mode: '',
@@ -359,7 +366,8 @@ export default {
       loading3: false,
       loading4: false,
       dropdown: [],
-     
+     dispc:false,
+     dispa:false,
       lo: false,
       hid: true,
       hide: true,
@@ -410,7 +418,8 @@ console.log(data+"KJ");
       })
     },
     fnnn() {
-      this.showl=true;
+      var vm=this;
+      vm.showl=true;
       const name =
         document.getElementById("fname").value +
         " " +
@@ -441,6 +450,9 @@ console.log(data+"KJ");
               git:"",
               google:"",
               pfp:"https://cdn4.iconfinder.com/data/icons/user-avatar-flat-icons/512/User_Avatar-04-512.png"
+            }).then(function(){
+              vm.showl=false;
+              vm.showc=true;
             });
           });
       });
@@ -448,6 +460,8 @@ console.log(data+"KJ");
     },
 
     asp() {
+      this.dispc=true;
+      this.message="";
       this.lo=false;
       this.dropdown=[];
       document.getElementById("hid").style.display = "block";
@@ -455,6 +469,7 @@ console.log(data+"KJ");
     document.getElementById("hidden").style.display = "block";
     },
     con() {
+      this.dispa=true;
       var vm = this;
       vm.lo=true;
       document.getElementById("hid").style.display = "block";
@@ -470,11 +485,14 @@ console.log(data+"KJ");
       });
       //document.getElementById("drop").remove();
     },
+    f11(){var vm=this;
+vm.snackbar2=true;
+    },
     f1(){
       var vm=this;
       if(vm.message=="")
       {
-         vm.snackbar2=true;
+         
       auth.signOut().then(() =>{
           console.log("logged out");
           vm.$router.push("/");
