@@ -1,6 +1,6 @@
 <template>
-<v-flex pa-3>
-    <v-card>
+<v-flex pa-3 class="transparent">
+    <v-card class="my-3">
     <v-container
           fluid
         >

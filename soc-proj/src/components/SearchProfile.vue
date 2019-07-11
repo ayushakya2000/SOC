@@ -18,56 +18,9 @@
   <v-spacer></v-spacer>
    
     </v-toolbar>
-
-    <v-navigation-drawer
-    v-model="drawer"
-    app dark
-    :mini-variant.sync="mini"
-    hide-overlay
-    stateless
-  >
-    <v-toolbar flat class="transparent">
-      <v-list class="pa-0">
-        <v-list-tile avatar>
-          <v-list-tile-avatar>
-            <img src="https://randomuser.me/api/portraits/men/85.jpg">
-          </v-list-tile-avatar>
-
-          <v-list-tile-content>
-            <v-list-tile-title>John Leider</v-list-tile-title>
-          </v-list-tile-content>
-
-          <v-list-tile-action>
-            <v-btn
-              icon
-              @click.stop="mini = !mini"
-            >
-              <v-icon>chevron_left</v-icon>
-            </v-btn>
-          </v-list-tile-action>
-        </v-list-tile>
-      </v-list>
-    </v-toolbar>
-
-    <v-list class="pt-0" dense>
-      <v-divider></v-divider>
-
-      <v-list-tile
-        v-for="item in items"
-        :key="item.title"
-        @click=""
-      >
-        <v-list-tile-action>
-          <v-icon>{{ item.icon }}</v-icon>
-        </v-list-tile-action>
-
-        <v-list-tile-content>
-          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-        </v-list-tile-content>
-       
-      </v-list-tile>
-      <v-dialog width="600">
-       <v-btn @click="func()" slot="activator"> 
+<div class="mt-5 pt-5">
+   <v-dialog width="600">
+       <v-btn dark @click="func()" slot="activator"> 
             <v-icon left class="mr-5">assessment</v-icon>
             <span>  Top Rated Contributor</span>
             </v-btn>
@@ -77,9 +30,9 @@
         grid-list-lg
       >
         <v-layout row wrap>
-          <v-flex xs6 class="my-2">
-            <v-card v-for="item in cons" color="blue-grey darken-2" class="white--text">
-              <v-layout row>
+          <v-flex xs6 class="my-2" v-for="item in cons">
+            <v-card  color="blue-grey darken-2" class="white--text">
+              <v-layout row >
                 <v-flex xs7>
                   <v-card-title primary-title>
                     <div>
@@ -100,13 +53,13 @@
       </v-container>
     </v-card>
             </v-dialog>
-    </v-list>
-  </v-navigation-drawer>
+</div>
+    
+    <br><br>
 
-    <br><br><br><br>
-
-    <v-layout class="mt-5">
+    <v-layout >
         <v-flex app xs10 sm8 offset-sm2 offset-xs3>
+          
             <v-card flat color="rgba(255,255,255,0.1)">
                 <v-container
                     fluid

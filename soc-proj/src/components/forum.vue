@@ -1,5 +1,7 @@
 <template>
-<v-app style = "background: rgb(0,0,0,0)">
+<v-app class="grey lighten-3 mt-5 pt-3">
+  <v-img src="https://images.pexels.com/photos/207142/pexels-photo-207142.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+     gradient="to left top, #FFCCBC, #B2EBF2">
     <v-toolbar  app color="rgb(0,0,0,0.7)" dark >
  <v-toolbar-title class="headline text-uppercase" dark>
      <v-layout row wrap>
@@ -27,39 +29,12 @@
    
     </v-toolbar>
     
-    <v-navigation-drawer
-    v-model="drawer"
-    app dark
-    :mini-variant.sync="mini"
-    hide-overlay
-    stateless
-  >
-    <v-toolbar flat class="transparent">
-      <v-list class="pa-0">
-        <v-list-tile avatar>
-          <v-list-tile-avatar>
-            <img src="https://randomuser.me/api/portraits/men/85.jpg">
-          </v-list-tile-avatar>
+   
 
-          <v-list-tile-content>
-            <v-list-tile-title>John Leider</v-list-tile-title>
-          </v-list-tile-content>
-
-          <v-list-tile-action>
-            <v-btn
-              icon
-              @click.stop="mini = !mini"
-            >
-              <v-icon>chevron_left</v-icon>
-            </v-btn>
-          </v-list-tile-action>
-        </v-list-tile>
-      </v-list>
-    </v-toolbar>
-  </v-navigation-drawer>
-
-  <v-flex app xs10 sm6 offset-sm3 offset-xs3>
+  <v-flex  app xs10 sm6 offset-sm3 offset-xs3>
   <v-card flat >
+    <v-img src="https://images.pexels.com/photos/207142/pexels-photo-207142.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+     gradient="to right top, #FFCCBC, #B2EBF2">
       <v-container
         fluid
         grid-list-lg
@@ -68,8 +43,9 @@
       <br>
       <br>
 
-      <v-flex app >
-        <v-card  color="rgba(0,0,0,0.5)">
+      <v-flex app class="ma-3" >
+        <v-card  color="rgba(0,0,0,0.8)">
+          <v-img height="150" src="https://images.pexels.com/photos/64057/pexels-photo-64057.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940">
       <v-text-field
      
         dark
@@ -80,6 +56,7 @@
         prepend-inner-icon="search"
         solo-inverted
       ></v-text-field>
+          </v-img>
         </v-card>
       </v-flex>
 
@@ -87,9 +64,11 @@
       <v-flex app >
 
         <v-card-actions>
-<v-btn @click="dispques(0)" flat>All Questions</v-btn>
-<v-btn v-if="sid" @click="dispques(2)" flat>Your Questions</v-btn>
-<v-btn v-if="rec" @click="dispques(1)" flat>Recommended</v-btn>
+          <v-tabs color="transparent" fixed-tabs  slider-color="black">
+<v-tab  @click="dispques(0)" flat>All Questions</v-tab>
+<v-tab v-if="sid" @click="dispques(2)" flat>Your Questions</v-tab>
+<v-tab v-if="rec" @click="dispques(1)" flat>Recommended</v-tab>
+</v-tabs fixed-tabs>
 
           <!-- <v-overflow-btn
           :items="dropdown"
@@ -203,10 +182,12 @@
       </v-flex>
 
       </v-container>
+    </v-img>
   </v-card>
-  
-  </v-flex>
+   <!-- <v-img src="https://images.pexels.com/photos/1881333/pexels-photo-1881333.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"></v-img> -->
 
+  </v-flex>
+  </v-img>
   </v-app>
 </template>
 

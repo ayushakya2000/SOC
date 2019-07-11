@@ -98,7 +98,26 @@
     
 <v-btn dark color="rgb(0,0,0,0.5)" @click="m()" @mousedown="fnnnn()" slot="activator"><span>submit</span></v-btn>
 
-  
+   <v-snackbar
+    
+      v-model="snackbar1"
+     color="red"
+      :multi-line="mode === 'multi-line'"
+      class="subheading"
+      :timeout="timeout"
+   
+      :vertical="mode === 'vertical'"
+      
+    >
+      {{ text1 }}
+      <v-btn
+        color="black"
+        
+        @click="snackbar1 = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
     </v-layout>
 </v-card-actions>
             </v-flex>
@@ -169,11 +188,13 @@ export default {
   data () {
       return{
         snackbar: false,
+        snackbar1:false,
         y: 'top',
         x: null,
         mode: '',
         timeout: 6000,
         text: 'Please LogIn First!',
+        text1:'Wrong credentials. Re-enter.',
       cards: [
         
         { title: 'FORUM', src: 'https://www.unitec.ac.nz/sites/default/files/public/_resampled/group-study_2.jpg-821x405.jpg',flex:6},
@@ -228,8 +249,8 @@ export default {
                 console.log(cred.user+"jkj");
                 vm.$router.push("/profile");
             }).catch(function(error){
-              alert("Wrong credentials. Re-enter.");
-              
+              // alert("Wrong credentials. Re-enter.");
+              vm.snackbar1=true;
             })
             
             //var user= firebase.auth().currentUser;

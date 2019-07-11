@@ -86,7 +86,7 @@
                     <v-flex xs12 >
                       <v-layout justify-space-around>
                   <div id="lo" v-show="lo" class="display-1">
-                    <v-chip outline  color="orange" class="headline"><span class="ma-1">Institute Name</span></v-chip>
+                    <!-- <v-chip outline  color="orange" class="headline"><span class="ma-1">Institute Name</span></v-chip>
                     <v-chip label color="white" outline>
                   <select id="loc">
                     <option class="white black--text heading "   v-for="item in dropdown" :key="item">
@@ -95,7 +95,19 @@
                     </option>
 
                   </select>
-                    </v-chip>
+                    </v-chip> -->
+                    <v-layout justify-center>
+                     <v-flex xs12 >
+                                          <v-select
+                                          dark
+                                          v-model="college"
+                                            :items="dropdown"
+                                            label="Institute Name"
+                                            value=""
+                                            id="loc"
+                                            required
+                                          ></v-select>
+                                        </v-flex></v-layout>
                     </div>
                       </v-layout>
                     </v-flex>
@@ -133,31 +145,116 @@
                     <v-card-actions>
                       <v-layout justify-center>
                         <v-dialog max-width="600">
-                          <v-btn id="hidden" dark color="red" @click="fnnn()" slot="activator">
+                          <v-btn  id="hidden" dark color="red" @click="fnnn()" slot="activator">
                             <span>submit</span>
                           </v-btn>
 
                            <v-card>
-  
+                             
+                             <br><br>
+   <v-progress-linear :indeterminate="true" color="green"></v-progress-linear>
   <v-card-title >
-     <v-layout justify-center>
-    <center>
-    <h2 class="ma-5 ">Verify Your Mail <br>
-    <v-divider  color="primary"></v-divider> To continue as Contributor</h2>
-</center>
+     <v-layout >
+    <div>
+    <div class="mx-2  mt-2 display-2">Verify Your Mail</div>
+    
+    <div class="mx-2 mb-5 mt-2 headline">To continue as Contributor</div>
+    </div>
+
 </v-layout>
+
 </v-card-title>
     
     
     
     <v-card-actions>
-    <v-layout justify-center align-center column wrap>
+    <v-layout justify-end align-end column wrap>
       <v-flex xs4>
         <center>
-    <v-btn dark class="mb-3" color="red" to="/login"  @mouseup="uf()" @mousedown="f()" ><span>Click to Verify</span></v-btn><br>
-    <v-divider  color="primary"></v-divider>
-     <v-btn dark  class="my-3" color="red" to="/login" @mouseup="uf()" @mousedown="f1()" ><span>Aspirant-click here</span></v-btn>
+    <v-btn dark flat color="red" to="/login" @mousedown="f()" ><span>Click to Verify</span></v-btn>
+    
+    <v-snackbar
+    
+      v-model="snackbar"
+     color="green"
+      :multi-line="mode === 'multi-line'"
+      class="subheading"
+      :timeout="timeout"
+   
+      :vertical="mode === 'vertical'"
+      
+    >
+      {{ text }}
+      <v-btn
+        color="black"
+        
+        @click="snackbar = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
+    <v-snackbar
+    
+      v-model="snackbar1"
+     color="red"
+      :multi-line="mode === 'multi-line'"
+      class="subheading"
+      :timeout="timeout"
+   
+      :vertical="mode === 'vertical'"
+      
+    >
+      {{ text1 }}
+      <v-btn
+        color="black"
+        
+        @click="snackbar1 = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
+     <v-btn  flat class="my-3" color="red" to="/login" @mousedown="f1()" ><span>Aspirant-click here</span></v-btn>
+     <v-snackbar
+    
+      v-model="snackbar2"
+     color="green"
+      :multi-line="mode === 'multi-line'"
+      class="subheading"
+      :timeout="timeout"
+   
+      :vertical="mode === 'vertical'"
+      
+    >
+      {{ text2 }}
+      <v-btn
+        color="black"
+        
+        @click="snackbar2 = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar><v-snackbar
+    
+      v-model="snackbar3"
+     color="red"
+      :multi-line="mode === 'multi-line'"
+      class="subheading"
+      :timeout="timeout"
+   
+      :vertical="mode === 'vertical'"
+      
+    >
+      {{ text3 }}
+      <v-btn
+        color="black"
+        
+        @click="snackbar3 = false"
+      >
+        Close
+      </v-btn>
+    </v-snackbar>
 </center> 
+
  </v-flex>
    </v-layout>
     </v-card-actions>
@@ -174,6 +271,16 @@
                             </v-card-actions>
                           </v-card> -->
                         </v-dialog>
+                        <!-- <v-layout v-show="showl" justify-center>
+                               <v-card>
+                               <v-progress-circular
+                               :size=50
+                               v-show="showp"
+                               color="amber"
+                               indeterminate>
+                               </v-progress-circular>
+                               </v-card>
+                             </v-layout> -->
                       </v-layout>
                     </v-card-actions>
                   </v-flex>
@@ -231,12 +338,28 @@
 export default {
   data() {
     return {
+      showl:'false',
+      showp:'true',
+      college:'',
+       snackbar: false,
+       snackbar1: false,
+       snackbar2: false,
+       snackbar3: false,
+        y: 'top',
+        x: null,
+        mode: '',
+        timeout: 6000,
+        text: 'Account Created',
+        text1: 'Wrong Button',
+        text2: 'Account Created',
+        text3: 'Not the Right Button!',
       loader: null,
       loading: false,
       loading2: false,
       loading3: false,
       loading4: false,
       dropdown: [],
+     
       lo: false,
       hid: true,
       hide: true,
@@ -279,13 +402,15 @@ console.log(data+"KJ");
     fuc(){
       var vm=this;
       console.log("poo");
-      var p=document.getElementById("loc").value;
+      // var p=document.getElementById("loc").value;
+      var p = vm.college;
       console.log(p);
       db.collection("colleges").doc(p).get().then(function(doc){
         vm.message=doc.data().mail;
       })
     },
     fnnn() {
+      this.showl=true;
       const name =
         document.getElementById("fname").value +
         " " +
@@ -309,7 +434,6 @@ console.log(data+"KJ");
             console.log(email, pass);
             db.collection("users").doc(user.displayName).set({
               mailid: email,
-              rating: 0,
               college: ra,
               age:"18",
               branch:"N/A",
@@ -324,9 +448,7 @@ console.log(data+"KJ");
     },
 
     asp() {
-      
       this.lo=false;
-     
       this.dropdown=[];
       document.getElementById("hid").style.display = "block";
     document.getElementById("hide").style.display = "block";
@@ -350,23 +472,39 @@ console.log(data+"KJ");
     },
     f1(){
       var vm=this;
+      if(vm.message=="")
+      {
+         vm.snackbar2=true;
       auth.signOut().then(() =>{
           console.log("logged out");
           vm.$router.push("/");
-           });
+           });}
+      //  alert("bhak");
+      // this.snackbar1=true;
+      else{
+           vm.snackbar3=true;
+      }
     },
     
     f() {
       var user = firebase.auth().currentUser;
       var vm=this;
-
+      if(vm.message!=""){
+        vm.snackbar=true;
       user.sendEmailVerification().then(function() {
         console.log("qwerty");
+        
       auth.signOut().then(() =>{
           console.log("logged out");
+           
           vm.$router.push("/");
            });
       });
+     
+      }
+      else
+      //  alert("poop");
+       vm.snackbar1=true;
     }
   }
 };
