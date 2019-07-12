@@ -23,14 +23,15 @@
 <br>
 
 
-  <v-flex xs12 class="mt-5">
+  <v-flex xs12 class="mt-3 pt-4">
   <v-parallax src="https://wallpapercave.com/wp/wp2140467.jpg"
-  height="900"
-  > 
-  <v-container class="my-5 ml-5 py-5" >
-  <p class="blockquote display-3 borderr2 " id="name1">COLLEGES</p>
-  </v-container>
+  height="920"
+  >
+  <v-flex sm12>
+
+  <p class="blockquote display-3 borderr2 mt-4 ml-3" id="name1">COLLEGES</p>
   
+  </v-flex>
   </v-parallax>
   </v-flex>
 
@@ -43,8 +44,8 @@
 src="http://realpinkaz.com/wp-content/uploads/web-design-background-montreal-web-design-montreal-web-design-web-web-design-background.jpg"
 gradient="to left bottom, #000000, #9E9E9E">
   <center>
-<v-flex lg6  class="mx-5">
-  <div class="ma-5">
+<v-flex lg5 xs10  >
+  <div class="my-5">
   
       <v-text-field
         dark
@@ -62,7 +63,7 @@ gradient="to left bottom, #000000, #9E9E9E">
 </center>
 
 
-      <v-layout row wrap justify-space-around class="ma-5">
+      <v-layout row wrap justify-space-around class="my-5">
     <v-flex xs12 sm6 lg3  v-for="card in filter"
               :key="card.title"
             class="ma-5">

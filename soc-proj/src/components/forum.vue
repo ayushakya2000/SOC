@@ -31,12 +31,12 @@
     
    
 
-  <v-flex  app xs10 sm6 offset-sm3 offset-xs3>
+  <v-flex  app xs10 sm6 offset-sm3>
   <v-card flat >
     <v-img src="https://images.pexels.com/photos/207142/pexels-photo-207142.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
      gradient="to right top, #FFCCBC, #B2EBF2">
       <v-container
-        fluid
+        fluidCENTER
         grid-list-lg
       >
       <br>
